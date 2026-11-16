@@ -3,6 +3,8 @@
 ## 1.2 (16 Nov 2026)
 - Product questions: answers about a client's policy now use the version of the plan they bought (checked against
   the issue date), and every answer says whether its source is client-facing ✅ or internal 🔒.
+- Library search: `index` now also drops files that were deleted, renamed or moved (no more results pointing to
+  missing files).
 
 ## 1.1 (16 Nov 2026)
 - New, optional: WhatsApp reply check (Tools/whatsapp_scan.py), for Mac and Windows. Sorts everyone she has

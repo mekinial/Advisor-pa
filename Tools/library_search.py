@@ -39,7 +39,7 @@ def index():
     import logging; logging.getLogger("pypdf").setLevel(logging.ERROR)
     c = db()
     known = dict(c.execute("SELECT path, mtime FROM files"))
-    done = 0
+    done, seen = 0, set()
     for dp, _, fs in os.walk(ROOT):
         for f in fs:
             p = os.path.join(dp, f)
@@ -47,6 +47,7 @@ def index():
             if f.startswith("_") or ext not in ("pdf", "docx", "pptx"):
                 continue
             rel = os.path.relpath(p, ROOT)
+            seen.add(rel)
             mt = os.path.getmtime(p)
             if known.get(rel) == mt:
                 continue
@@ -64,9 +65,13 @@ def index():
             done += 1
             if done % 50 == 0:
                 c.commit(); print(f"  indexed {done} files...", flush=True)
+    gone = [r for r in known if r not in seen]  # files deleted, renamed or moved since the last index
+    for r in gone:
+        c.execute("DELETE FROM pages WHERE path=?", (r,))
+        c.execute("DELETE FROM files WHERE path=?", (r,))
     c.commit()
     n = c.execute("SELECT count(*) FROM files").fetchone()[0]
-    print(f"Indexed {done} new/changed files; {n} files in the index")
+    print(f"Indexed {done} new/changed files, removed {len(gone)} that are gone; {n} files in the index")
 
 
 def search(q, plan=None, n=10):

@@ -1,0 +1,37 @@
+{
+  "_how_to_use": "Add this 'estate' block to the client's fact-find JSON, then run scripts/legacy_plan.py on it. Values in SGD. Leave unknowns null. Names are first names only. No NRIC, policy numbers or bank details.",
+  "estate": {
+    "muslim": false,
+    "will": false,
+    "confirmed": false,
+    "_confirmed_note": "false until the client has confirmed will/nomination status; unknowns then show as ? (not x) in the client PDF",
+    "will_residuary_shares": {},
+    "lpa": null,
+    "family": {
+      "spouse": false,
+      "spouse_name": null,
+      "children": ["Child A", "Child B"],
+      "ages": { "Child A": 30, "Child B": 27 },
+      "parents": [],
+      "siblings": [],
+      "recently_married_or_divorced": false
+    },
+    "assets": [
+      { "name": "HDB flat", "type": "property_hdb", "value": null, "share": 1.0, "holding": "sole / joint_tenancy / tenancy_in_common", "co_owner": null, "holding_confirmed": false, "mortgage": 0, "cpf_refund": null, "to": null, "_note": "cpf_refund = CPF used for the flat + accrued interest; 'to' = who the client wants to have it" },
+      { "name": "Private property", "type": "property_private", "value": null, "share": 1.0, "holding": "sole", "mortgage": 0, "to": null },
+      { "name": "Cash & deposits", "type": "cash", "value": null },
+      { "name": "Investments", "type": "investments", "value": null },
+      { "name": "SRS", "type": "srs", "value": null },
+      { "name": "CPF (all accounts)", "type": "cpf", "value": null, "nominees": {}, "_note": "nominees e.g. {\"Child A\": 0.5, \"Child B\": 0.5}; empty = no nomination" },
+      { "name": "Life policy", "type": "insurance", "value": null, "nomination": "none / revocable / trust", "nominees": {} }
+    ],
+    "debts": 0,
+    "funeral_and_costs": null,
+    "wish": {
+      "type": "equal / shares",
+      "heirs": ["Child A", "Child B"],
+      "shares": {},
+      "_note": "equal: list heirs. shares: e.g. {\"Child A\": 60, \"Child B\": 40}. Specific assets go in each asset's 'to'."
+    }
+  }
+}

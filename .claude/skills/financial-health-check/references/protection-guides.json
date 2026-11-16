@@ -1,0 +1,17 @@
+{
+  "_note": "Planners Inc guidelines as used by a colleague (edit to your own). These are preferred over the LIA minimum (9x / 4x) for a more comfortable buffer in a catastrophic illness. Annual income = gross monthly x 12 + bonus. A null means 'not set'.",
+  "source": "Planners Inc guideline",
+  "death_tpd_x_annual_income": 12,
+  "ti_x_annual_income": 12,
+  "ci_x_annual_income": 5,
+  "early_ci_x_annual_income": 3,
+  "disability_income_pct_of_monthly_income": 0.75,
+  "personal_accident_x_annual_income": null,
+  "emergency_months": {
+    "single": 3,
+    "married_no_kids": 6,
+    "married_1_kid": 9,
+    "married_2_kids": 12
+  },
+  "show_lia_minimum_for_reference": false
+}

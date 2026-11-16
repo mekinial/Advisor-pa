@@ -1,0 +1,23 @@
+{
+  "_how_to_use": "The words for the client PDF. Plain English, short, warm, in the adviser's voice. Every number must match the calculator output. NEVER put internal notes here (data doubts, template carry-overs, health, NRIC/policy numbers, 'Check before presenting' items).",
+  "client_name": "Full name as the client likes it",
+  "date": "13 November 2026",
+  "title": "Your Financial Health Check",
+  "adviser_note": "Cover note from the adviser, 2-3 sentences, first name, warm and specific: what they've done well and what this review is about.",
+  "where_you_stand": "3-4 sentences. Their situation and the one big question for them now.",
+  "good": ["3-5 short bullets, max ~12 words each"],
+  "not_so_good": ["2-4 short bullets"],
+  "bad": ["0-3 short bullets; leave empty if nothing is truly bad"],
+  "adviser_take": "Optional. the adviser's one-paragraph big-picture comment on the health-check page.",
+  "protection_note": "2-3 sentences: how covered they are in plain words, and when to review.",
+  "goals_note": "1-2 sentences about their goals.",
+  "retirement_note": "2-3 sentences: want vs building, and the strongest lever. No guarantees.",
+  "timeline_note": "1-2 sentences for the life timeline page: how long their money lasts at their target, in plain words. No guarantees.",
+  "levers_note": "Optional, 1-2 sentences above the levers page: what's in their control. Default text is used if empty.",
+  "plan_note": "Optional, 1-2 sentences above the Your plan chart. Default text is used if empty.",
+  "legacy_note": "Optional, only with --legacy: 2 sentences on who gets what today vs their wish.",
+  "actions": [
+    { "title": "Short action (max 7 words)", "why": "One line: the number or reason it fixes.", "how": "One line: the kind of solution, no product names unless the adviser chose one." }
+  ],
+  "next_steps": ["Documents or answers to bring to the next meeting"]
+}

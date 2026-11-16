@@ -1,0 +1,20 @@
+# Everything personal stays on her Mac only. Never part of the shared kit, never touched by updates.
+config.json
+Me.md
+Preferences.md
+Voice.md
+Data/
+Drafts/
+Forms/Blank/*
+!Forms/Blank/.keep
+*.xlsx
+!templates/*.xlsx
+*.csv
+!templates/*.csv
+*.vcf
+*.pdf
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+.claude/settings.local.json

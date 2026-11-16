@@ -1,0 +1,191 @@
+{
+  "_how_to_use": "Copy to Drafts/Client Reports\\<first name>-factfind.json and fill in what is known. Leave a value as null if unknown: the calculator reports it as missing instead of guessing. Money is SGD. Monthly unless the key says annual. Mirrors the Planners Inc Financial Inventory Check sheets.",
+  "fact_find_date": "YYYY-MM-DD",
+  "client": {
+    "name": "First name only is fine",
+    "age": null,
+    "marital_status": "single / married",
+    "children": null,
+    "income_irregular": false,
+    "dependants": [
+      {
+        "relation": "child",
+        "age": null,
+        "support_years": null,
+        "_note": "support_years = how many more years they depend on the client"
+      }
+    ]
+  },
+  "income": {
+    "gross_monthly": null,
+    "take_home_monthly": null,
+    "bonus_annual": null,
+    "rental_monthly": null,
+    "other_monthly": null
+  },
+  "expenses": {
+    "family": null,
+    "bills": null,
+    "tax": null,
+    "loans": null,
+    "food": null,
+    "transport": null,
+    "insurance": null,
+    "charity": null,
+    "personal": null,
+    "committed_savings": null,
+    "discretionary": null,
+    "other": null
+  },
+  "fixed_expense_keys": [
+    "family",
+    "bills",
+    "tax",
+    "loans",
+    "insurance"
+  ],
+  "debt_repayments_monthly": {
+    "mortgage": null,
+    "non_mortgage": null
+  },
+  "assets": {
+    "cash": null,
+    "foreign_currency": null,
+    "cpf_oa": null,
+    "cpf_sa": null,
+    "cpf_ma": null,
+    "cpf_investments": null,
+    "home": null,
+    "investment_property": null,
+    "stocks": null,
+    "unit_trusts": null,
+    "bonds": null,
+    "policy_cash_value": null,
+    "business": null,
+    "srs": null,
+    "other_investments": null,
+    "personal_use": null
+  },
+  "liabilities": {
+    "mortgage_home": null,
+    "mortgage_investment": null,
+    "car_loan": null,
+    "study_loan": null,
+    "renovation_loan": null,
+    "instalments": null,
+    "other": null
+  },
+  "insurance": [
+    {
+      "insurer": "GE",
+      "plan": "Plan name (no policy numbers)",
+      "type": "term / whole life / ILP / endowment / IP / group",
+      "death_tpd": null,
+      "ti": null,
+      "early_ci": null,
+      "ci": null,
+      "accidental_death": null,
+      "apd": null,
+      "hospital": null,
+      "loss_of_income_monthly": null,
+      "ltc_monthly": null,
+      "annual_premium": null,
+      "ends_age": null,
+      "nominated": null,
+      "death_benefit": null,
+      "_death_benefit_note": "death-only payouts (e.g. annuity death benefit, no TPD): kept out of the protection check, counted for legacy",
+      "cash_value": null,
+      "cash_value_at_retirement": null,
+      "_cash_value_note": "current surrender value and the benefit illustration's value at their retirement age (from statements; null = goes on the to-collect list)",
+      "maturity_age": null,
+      "maturity_amount": null,
+      "count_for_retirement": false
+    }
+  ],
+  "national": {
+    "has_ip": null,
+    "ip_ward": null,
+    "has_rider": null,
+    "careshield": null,
+    "dps": null,
+    "hps": null
+  },
+  "legacy": {
+    "will": null,
+    "cpf_nomination": null,
+    "lpa": null,
+    "acp": null,
+    "target_amount": null,
+    "_target_note": "What they want to leave behind, if they've said"
+  },
+  "retirement": {
+    "retire_age": 65,
+    "monthly_today": null,
+    "cpf_life_monthly": null,
+    "spouse_cpf_life_monthly": null,
+    "other_monthly_income": [
+      {
+        "label": "Rental / annuity / policy payout",
+        "amount": null
+      }
+    ],
+    "srs_at_retirement": null,
+    "srs_draw_years": 10,
+    "drawdown_rate": 0.04,
+    "cpf_oa_withdrawable": false,
+    "plan_to_age": 90,
+    "cpf_life_start_age": 65
+  },
+  "goals": [
+    {
+      "name": "Wedding",
+      "term": "MT",
+      "cost": null,
+      "year": null,
+      "saved": 0,
+      "for_dependants": false
+    }
+  ],
+  "levers": {
+    "invest_monthly": null,
+    "_invest_note": "null = half the monthly surplus",
+    "invest_idle_cash": true,
+    "retire_later_years": 2,
+    "spend_less_pct": 0.1,
+    "defer_cpf_life_to": 70,
+    "plan_defer_cpf": false
+  },
+  "timeline_events": [
+    {
+      "age": null,
+      "label": "Extra milestone for the life timeline, e.g. Upgrade home",
+      "kind": "custom"
+    }
+  ],
+  "assumptions": {
+    "inflation": 0.025,
+    "return_pre_retirement": 0.04,
+    "return_post_retirement": 0.04,
+    "cash_return": 0.015,
+    "scenario_returns": {
+      "cautious": 0.025,
+      "middle": 0.04,
+      "hopeful": 0.06
+    },
+    "family_share_of_spending": 0.7,
+    "goal_returns": {
+      "ST": 0.02,
+      "MT": 0.03,
+      "LT": 0.04
+    }
+  },
+  "wealth_insights": {
+    "_note": "Planners Inc Wealth Insights answers, in the client's words. Used for the narrative, not the maths.",
+    "what_wealth_means": null,
+    "biggest_money_worry": null,
+    "ideal_lifestyle": null,
+    "first_3_things_on_payday": null,
+    "what_they_lack": null,
+    "expectation_of_adviser": null
+  }
+}

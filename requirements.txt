@@ -1,0 +1,6 @@
+openpyxl>=3.1
+pypdf>=4.0
+markdown>=3.5
+numpy>=1.26
+av>=12
+faster-whisper>=1.0

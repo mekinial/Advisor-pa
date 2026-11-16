@@ -1,0 +1,17 @@
+#!/bin/bash
+# Run one of the PA's tools with the PA's own Python:   ./pa <tool> [args]
+#   ./pa telegram_post main "Hello"        (= Tools/telegram_post.py)
+#   ./pa .claude/skills/financial-health-check/scripts/health_check.py <file>   (any .py path works too)
+DIR="$(cd "$(dirname "$0")" && pwd)"
+PY="$DIR/.venv/bin/python"
+[ -x "$PY" ] || PY="python3"
+if [ -z "$1" ]; then
+  echo "usage: ./pa <tool> [args]   tools:"; ls "$DIR/Tools" | grep '\.py$' | grep -v '^pa_config' | sed 's/\.py$//; s/^/  /'
+  exit 1
+fi
+t="$1"; shift
+case "$t" in
+  *.py) f="$t"; [ -f "$f" ] || f="$DIR/$t" ;;
+  *)    f="$DIR/Tools/$t.py" ;;
+esac
+exec "$PY" -X utf8 "$f" "$@"

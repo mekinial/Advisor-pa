@@ -1,0 +1,45 @@
+{
+  "_read_me": "Your own settings. setup.sh copies this file to config.json, which stays on your Mac only and is never shared or overwritten by updates. Claude fills it in with you during setup.",
+  "me": {
+    "full_name": "Your Full Name (shown on PDFs)",
+    "short_name": "What clients call you (used in messages and calendar titles)",
+    "company": "Great Eastern",
+    "firm": "Planners Inc · Great Eastern Financial Advisers",
+    "intro": "I'm {short_name} from Great Eastern, your new servicing adviser",
+    "hq_name": "My HQ"
+  },
+  "files": {
+    "policies_xlsx": "Data/Client Policies.xlsx",
+    "product_library": "~/Documents/GE Product Library",
+    "forms_library": "~/Documents/GE Forms Library",
+    "google_drive": ""
+  },
+  "lists": {
+    "_help": "Names exactly as in the Policyholder column. no_birthday_review: friends who get a plain birthday wish, not a review invite. no_nudge: people you follow up yourself. telegram_only: people you message on Telegram, not WhatsApp: {\"NAME\": \"https://t.me/...\"}",
+    "no_birthday_review": [],
+    "no_nudge": [],
+    "telegram_only": {}
+  },
+  "top": {
+    "_help": "Transferred (TOP) clients. per_day: how many new intros on each day's To message list. where_near: line used for people living near you, e.g. \"I stay at Tampines, so I'm nearby and happy to meet somewhere close to you ☺️\". near_postal_sectors: first 2 digits of nearby postal codes, e.g. [\"51\", \"52\"]. near_areas: street/area names for people without a postal code.",
+    "per_day": 5,
+    "where_near": "",
+    "where_far": "I can meet somewhere near you, or in town if that's easier ☺️",
+    "near_postal_sectors": [],
+    "near_areas": []
+  },
+  "schedule": {
+    "_help": "Meeting times the PA may offer (24h, per weekday) and times it must never offer. Also update the same rules in Me.md.",
+    "meeting_minutes": 90,
+    "candidates": {
+      "mon": ["12:00", "19:30"], "tue": ["12:00", "19:30"], "wed": ["12:00", "19:30"], "thu": ["12:00", "19:30"],
+      "fri": ["12:00"], "sat": ["11:00", "17:00"], "sun": ["14:00", "16:00"]
+    },
+    "blocks": {
+      "fri": [["19:00", "23:59"]]
+    }
+  },
+  "drive_sync": {
+    "_help": "Optional. Local file -> folder inside 'My Drive' (Google Drive for desktop), copied when it changes. Example: \"Data/Client Policies.xlsx\": \"Clients\""
+  }
+}

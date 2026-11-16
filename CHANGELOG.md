@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.3 (16 Nov 2026)
+- Financial health check: the FIC importer now reads every table by column heading, so a moved or added column can't
+  shift the numbers; it stops and names the heading if one it needs is missing.
+- Reads the v3 FIC in one go (Export!A1:AM115) and still reads v2. New from v3: policy Status / Type / Whose Policy /
+  Hospital Ward / Rider dropdowns, a legacy target, the date of the review, holdings and risk profile from the
+  Investments tab.
+- Leaves out policies that aren't in force or that cover a spouse, child or parent (and says so). Flags cash values
+  and holdings over a year old, policies with no type, and sample figures left in a renamed copy.
+
 ## 1.2.1 (16 Nov 2026)
 - Telegram: a dropped connection no longer shows as "Topics is turned off"; the safety check retries 3 times and
   says "couldn't reach Telegram" if it still can't get an answer.

@@ -15,25 +15,37 @@ her.
 
 ### 1. Gather the facts (only real ones)
 
-**Fast path: a v2 FIC** (the client's FIC has an "About You & Estate" tab and a hidden "Export" tab):
-1. Read these ranges with the Sheets connector and save them as `Drafts/Client Reports/<first name>-fic-raw.json`:
-   ```json
-   {"source": "<FIC file name> (Google Drive, read <date>)",
-    "export": Export!A1:B80, "policies": 'Existing Policies'!A7:AE40,
-    "goals_st": Goals!C14:H15, "goals_mt": Goals!I14:N18, "goals_lt": Goals!O14:S18,
-    "dependants": 'About You & Estate'!B14:F19, "lifelong": 'About You & Estate'!B33:F38}
-   ```
+**Fast path: the client's FIC has a hidden "Export" tab.** Read `Export!A1:C80` first and look for a `fic.version` row.
+1. Save what you read as `Drafts/Client Reports/<first name>-fic-raw.json`:
+   - **v3 (there is a `fic.version` row): ONE read**, `Export!A1:AM115`:
+     ```json
+     {"source": "<FIC file name> (Google Drive, read <date>)", "export_all": Export!A1:AM115}
+     ```
+   - **v2 (no `fic.version` row): seven ranges**:
+     ```json
+     {"source": "<FIC file name> (Google Drive, read <date>)",
+      "export": Export!A1:B80, "policies": 'Existing Policies'!A7:AE40,
+      "goals_st": Goals!C14:H18, "goals_mt": Goals!I14:N18, "goals_lt": Goals!O14:S18,
+      "dependants": 'About You & Estate'!B14:F19, "lifelong": 'About You & Estate'!B33:F38}
+     ```
 2. Build the fact-find:
    `./pa .claude/skills/financial-health-check/scripts/fic_import.py "<fic-raw.json>" --out "Drafts/Client Reports/<first name>-factfind.json"`
 3. Read what it prints:
    - **Missing** fields go on the next-meeting list.
-   - It warns when the FIC still shows the Mr Prospect demo.
-   - It skips policies marked Lapsed, and says so.
-   - Policy numbers (column D) are never read.
+   - **STOP** means the sheet's layout doesn't match (it names the heading). Fix the heading in the FIC or ask; never
+     work around it by reading cells by position.
+   - It warns when the FIC still shows the Mr Prospect demo, or when figures identical to the sample are left in a
+     renamed copy.
+   - It leaves out policies whose Status isn't "In force" (or, in v2, marked Lapsed), and policies that cover a
+     spouse, child or parent (kept under `insurance_family`), and says so.
+   - It flags cash values more than a year old and policies with no Policy Type picked.
+   - If the FIC has the new Investments tab, it also brings in what they hold today (`holdings`) and their risk
+     profile (`investments`), and says when the holdings don't add up to the Assets & Liabilities figure.
+   - Policy numbers are never read.
 4. Add the estate block from `estate_hints` if a legacy plan is wanted. Then continue at step 2.
 
-The v2 layout became the Master Copy on 13 Nov 2026, so client FICs copied from that date have the Export tab.
-An older FIC (copied before then, no Export tab) still needs the manual route below.
+The importer reads both layouts: v3 (status and type dropdowns, one-read Export tab) and v2.
+An older FIC with no Export tab still needs the manual route below.
 
 Look in these places, and note which file each fact came from:
 

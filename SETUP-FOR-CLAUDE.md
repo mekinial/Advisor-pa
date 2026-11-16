@@ -30,7 +30,13 @@ Show her the finished Me.md and the "me", "top", "schedule" parts of config.json
    - configure the bot token (she pastes it; never repeat it back),
    - she sends a DM to her bot, then pair her account so access.json "allowFrom" holds only her user id,
    - set the DM policy to allowlist.
+   **If she already has a bot and group running:** reuse them. Ask what currently runs the bot (another Claude Code
+   chat with the Telegram plugin, another app or service). Only ONE program may read a bot's messages, so that one
+   must be stopped for good before this PA takes over (or she makes a new bot for the PA). If the Telegram plugin
+   is already configured on this Mac with that bot, keep its token and pairing and skip the configure step.
 2. The HQ group: she created it with only herself + the bot, bot is admin, Topics on, and sent "hello".
+   An existing group is fine if it has ONLY her and the bot (every PA tool refuses to post otherwise); if others are
+   in it, she makes a new group just for the PA. She sends a fresh "hello" in it right before the next command.
    Make sure no Telegram line is running (`Tools/stop_line.sh`), then run `./pa hq_setup`. It saves the group id
    and adds the group to the plugin's access.json (only her, no @mention needed). Then `./pa hq_setup --check`.
 3. Test: `./pa telegram_post main "👋 Your PA is connected"` and `./pa telegram_post admin "Admin topic test"`.

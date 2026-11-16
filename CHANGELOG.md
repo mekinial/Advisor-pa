@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.1 (16 Nov 2026)
+- Telegram: a dropped connection no longer shows as "Topics is turned off"; the safety check retries 3 times and
+  says "couldn't reach Telegram" if it still can't get an answer.
+
 ## 1.2 (16 Nov 2026)
 - Product questions: answers about a client's policy now use the version of the plan they bought (checked against
   the issue date), and every answer says whether its source is client-facing ✅ or internal 🔒.

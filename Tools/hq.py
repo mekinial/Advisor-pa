@@ -93,9 +93,20 @@ def connect():
         PROBLEM = "no bot token, owner or HQ group configured"
         return None, None, base
     gid = json.load(open(cfg))["chat_id"]
-    count = api(token, "getChatMemberCount", chat_id=gid).get("result")
-    status = api(token, "getChatMember", chat_id=gid, user_id=int(allow[0])).get("result", {}).get("status")
-    forum = api(token, "getChat", chat_id=gid).get("result", {}).get("is_forum")
+    for attempt in range(3):  # a dropped connection must not read as "Topics off"
+        rc = api(token, "getChatMemberCount", chat_id=gid)
+        rm = api(token, "getChatMember", chat_id=gid, user_id=int(allow[0]))
+        rf = api(token, "getChat", chat_id=gid)
+        bad = [r for r in (rc, rm, rf) if not r.get("ok")]
+        if not bad:
+            break
+        time.sleep(5 * (attempt + 1))
+    if bad:
+        PROBLEM = f"couldn't reach Telegram ({bad[0].get('description', 'no answer')}); nothing sent"
+        return None, None, base
+    count = rc.get("result")
+    status = rm.get("result", {}).get("status")
+    forum = rf.get("result", {}).get("is_forum")
     if count != 2 or status not in ("creator", "administrator", "member"):
         PROBLEM = f"HQ must contain only you and the bot (members: {count}); nothing sent"
         return None, None, base

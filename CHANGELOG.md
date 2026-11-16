@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2 (16 Nov 2026)
+- Product questions: answers about a client's policy now use the version of the plan they bought (checked against
+  the issue date), and every answer says whether its source is client-facing ✅ or internal 🔒.
+
 ## 1.1 (16 Nov 2026)
 - New, optional: WhatsApp reply check (Tools/whatsapp_scan.py), for Mac and Windows. Sorts everyone she has
   messaged into your turn / waiting / unsure by who sent the last message, adds "your turn" people to the To message

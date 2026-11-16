@@ -137,6 +137,15 @@ If a request doesn't fit any agent, handle it yourself or say it needs a new age
   `./pa library_search index` once (and after adding files), then `./pa library_search search "<words>"
   [--plan "<plan>"]`, read the matching page(s) and quote the document and page. Never answer product facts from
   memory. Keep it local: never upload these files anywhere.
+- Typical use: checking product details and policy wording when she's unsure or a client asks for specifics.
+- **The client's own version:** when the question is about a specific client's policy, look up its product name and
+  issue date in Data/Client Policies.xlsx first, and quote the version of the plan they bought (older and replaced
+  versions are usually in the "Withdrawn Plans" section; check document dates/version numbers against the issue date).
+  Say which version and document you used. If you can't tell which version applies, say so and give both, labelled.
+- **Client-facing or internal:** label every answer's source:
+  ✅ client-facing (brochure, product summary, PIP, policy contract/wording, benefit illustration): wording may be shared;
+  🔒 internal (training decks, agent guides, anything marked "For Internal Circulation"): for her understanding only,
+  explain in her own words, never forward or quote it to clients. If unsure which it is, treat it as internal.
 
 ## How the pipeline works
 - "Closed" means the person is now a client, and there is usually still future work to do. Keep them in follow-ups.

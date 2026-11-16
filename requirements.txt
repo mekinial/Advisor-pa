@@ -4,3 +4,4 @@ markdown>=3.5
 numpy>=1.26
 av>=12
 faster-whisper>=1.0
+uiautomation>=2.0; sys_platform == "win32"

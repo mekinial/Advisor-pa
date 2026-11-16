@@ -2,22 +2,27 @@
 # One-time setup on a Mac. Safe to run again (never overwrites her own files).
 #   ./setup.sh              Python environment, folders, her own config/template files
 #   ./setup.sh background   background jobs (launchd): Telegram line at login, watchdog every 5 min,
-#                           Drive sync every 10 min. Run this AFTER Telegram is set up and tested.
+#                           Drive sync every 10 min, WhatsApp check 4:07am (if on). Run this AFTER Telegram is set up and tested.
 #   ./setup.sh remove-background   turn those background jobs off again
 set -e
 DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$DIR"
 export PATH="/opt/homebrew/bin:/usr/local/bin:$HOME/.local/bin:$PATH"
 LA="$HOME/Library/LaunchAgents"
-JOBS="com.advisorpa.line com.advisorpa.watchdog com.advisorpa.drivesync"
+JOBS="com.advisorpa.line com.advisorpa.watchdog com.advisorpa.drivesync com.advisorpa.whatsapp"
 
 say() { printf "\n\033[1m%s\033[0m\n" "$1"; }
 
-plist() {  # label, interval-seconds (0 = at login only), command...
+plist() {  # label, when (seconds between runs | 0 = at login only | at:H:M = daily at that time), command...
   local label="$1" every="$2"; shift 2
   local args=""; for a in "$@"; do args+="<string>$a</string>"; done
   local when="<key>RunAtLoad</key><true/>"
-  [ "$every" != "0" ] && when+="<key>StartInterval</key><integer>$every</integer>"
+  case "$every" in
+    at:*) IFS=: read -r _ h m <<< "$every"
+          when="<key>StartCalendarInterval</key><dict><key>Hour</key><integer>$h</integer><key>Minute</key><integer>$m</integer></dict>" ;;
+    0) ;;
+    *) when+="<key>StartInterval</key><integer>$every</integer>" ;;
+  esac
   cat > "$LA/$label.plist" <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -42,6 +47,13 @@ if [ "$1" = "background" ]; then
   plist com.advisorpa.line 0 /bin/bash "$DIR/Tools/start_line.sh"
   plist com.advisorpa.watchdog 300 "$DIR/.venv/bin/python" -X utf8 "$DIR/Tools/telegram_watchdog.py"
   plist com.advisorpa.drivesync 600 "$DIR/.venv/bin/python" -X utf8 "$DIR/Tools/drive_sync.py"
+  if "$DIR/.venv/bin/python" -c "import sys; sys.path.insert(0, 'Tools'); import pa_config as C; sys.exit(0 if C.CFG['whatsapp'].get('enabled') else 1)"; then
+    plist com.advisorpa.whatsapp at:4:07 "$DIR/.venv/bin/python" -X utf8 "$DIR/Tools/whatsapp_scan.py" run
+    echo "  (WhatsApp check needs Full Disk Access once: ./pa whatsapp_scan where)"
+  else
+    launchctl bootout "gui/$(id -u)/com.advisorpa.whatsapp" 2>/dev/null || true; rm -f "$LA/com.advisorpa.whatsapp.plist"
+    echo "  WhatsApp check is off (config.json whatsapp.enabled)"
+  fi
   echo "Done. They run while the Mac is awake and signed in. Turn off: ./setup.sh remove-background"
   exit 0
 fi

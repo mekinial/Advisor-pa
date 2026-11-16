@@ -26,6 +26,7 @@ DEFAULTS = {
                                 "thu": ["12:00", "19:30"], "fri": ["12:00"], "sat": ["11:00", "17:00"], "sun": ["14:00", "16:00"]},
                  "blocks": {}, "calendar_skip_words": []},
     "drive_sync": {},
+    "whatsapp": {"enabled": False, "lookback_days": 180, "db": ""},
 }
 
 

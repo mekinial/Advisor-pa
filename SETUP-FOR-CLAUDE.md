@@ -67,9 +67,20 @@ Show her the finished Me.md and the "me", "top", "schedule" parts of config.json
   auto-resume task (it uses some of her usage every 30 minutes).
 - Run the daily To message task once now ("Run now") to test.
 
+## 6b. WhatsApp reply check (optional, ask her)
+- Explain in two lines: each night it looks at who sent the last WhatsApp message for everyone she has messaged
+  from the To message list, read only, never message text. Ask if she wants it.
+- If yes: WhatsApp desktop installed and signed in on this Mac. `./pa whatsapp_scan where` shows the database and
+  the Python path; she adds that Python under System Settings > Privacy & Security > Full Disk Access (her setting:
+  guide her, don't change it yourself). Then `./pa whatsapp_scan test`: it must say "OK: read N chats".
+- If the test says the database layout is different or it isn't found, tell her the check needs adjusting for her
+  WhatsApp version, leave it off, and add it to your list for the end (don't guess at other ways to read WhatsApp).
+- When the test passes, set config.json whatsapp.enabled = true. Step 7 then schedules it for 4:07am.
+
 ## 7. Background jobs
-- `./setup.sh background` turns on: the Telegram line at login, the watchdog (every 5 min) and Drive sync (every
-  10 min, only does something if config.json drive_sync has entries).
+- `./setup.sh background` turns on: the Telegram line at login, the watchdog (every 5 min), Drive sync (every
+  10 min, only does something if config.json drive_sync has entries) and, if enabled, the WhatsApp check at 4:07am.
+  Run it again whenever whatsapp.enabled changes.
 - Tell her about sleep: the Mac must be awake for the PA to answer (see SETUP-GUIDE.md Part 5). She changes the
   setting herself.
 

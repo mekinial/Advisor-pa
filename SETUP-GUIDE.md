@@ -98,10 +98,19 @@ When you improve the kit, you push to the GitHub repo; she runs `./update.sh` (o
 shared code changes. Her config.json, Me.md, Preferences.md, Voice.md, Data/ and Drafts/ are never part of the
 repo and never touched.
 
+## Optional: WhatsApp reply check
+
+Each night at 4:07am it checks who sent the last WhatsApp message for everyone she has messaged from the To
+message list, and posts "your turn / waiting / unsure" to the Admin topic ("your turn" people also go on the next
+day's list). It is read only: it never opens a chat, types or sends, and it never reads message text.
+- Needs **WhatsApp desktop** (Mac App Store) installed and signed in on the Mac.
+- macOS asks for one permission: System Settings → Privacy & Security → **Full Disk Access** → add the PA's Python
+  (`./pa whatsapp_scan where` prints the exact path and steps). She switches it on herself.
+- Test: `./pa whatsapp_scan test` should say "OK: read N chats". Claude then turns it on during setup.
+- On a Windows PC the same check reads the WhatsApp app's chat list instead (WhatsApp desktop must be open).
+
 ## Not included in this version
 
-- **WhatsApp reply checker**: the Windows version reads the WhatsApp app in a Windows-only way. A Mac version
-  needs building and testing on her Mac.
 - Agent Office view and reel generators (left out on purpose).
 - Anything that logs in to GE systems (left out on purpose, see Part 4).
 

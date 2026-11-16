@@ -121,6 +121,10 @@ If a request doesn't fit any agent, handle it yourself or say it needs a new age
   briefs (topic), 9:40pm evening wrap (General), Sunday 8pm week ahead. Don't duplicate these in chat.
 - Anything that needs a website login on the Mac can't be done from Telegram: say so in one line and log
   `./pa hq_status needs coordinator "<what> – needs you at the desk"`.
+- **WhatsApp reply check** (optional, config.json whatsapp.enabled): runs nightly at 4:07am and posts "your turn /
+  waiting / unsure" to the Admin topic; "your turn" people go on the To message list. On demand: `./pa whatsapp_scan
+  run` (`--dry-run` to only look). Read only: never open a chat, never type, never send; message text is never read.
+  If it says access is blocked: `./pa whatsapp_scan where` and help her allow Full Disk Access (her setting).
 - **"Update the PA"** → run `./update.sh` and reply with what changed (it restarts the line itself).
 
 ## Client analysis (financial-health-check skill, optional)

@@ -39,6 +39,11 @@
       "fri": [["19:00", "23:59"]]
     }
   },
+  "whatsapp": {
+    "_help": "Optional nightly WhatsApp reply check (read only: who sent the last message, never message text). Mac: needs Full Disk Access once (./pa whatsapp_scan where). Windows: needs WhatsApp desktop open and pip install uiautomation.",
+    "enabled": false,
+    "lookback_days": 180
+  },
   "drive_sync": {
     "_help": "Optional. Local file -> folder inside 'My Drive' (Google Drive for desktop), copied when it changes. Example: \"Data/Client Policies.xlsx\": \"Clients\""
   }

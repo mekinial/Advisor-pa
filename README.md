@@ -13,7 +13,7 @@ specialist agents, running in Claude Code on the adviser's own Mac.
   investment-writer, drive-organizer. .claude/skills/financial-health-check (optional).
 - Tools/: Telegram (hq.py, telegram_post.py), daily To message list (daily_reminders.py, todo_list.py,
   top_intros.py, slots.py), week ahead, status board, pipeline updates, background jobs, voice notes, PDFs,
-  product-library search, Drive sync, the Telegram line scripts and watchdog.
+  product-library search, Drive sync, the optional WhatsApp reply check, the Telegram line scripts and watchdog.
 - scheduled-tasks/: prompts for the Claude desktop app's scheduled tasks.
 - templates/: blank client workbook, pipeline, TOP list, Me/Preferences/Voice starters.
 

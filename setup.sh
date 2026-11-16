@@ -70,6 +70,7 @@ fi
 PYV=$(python3 -c 'import sys; print(sys.version_info >= (3, 11))' 2>/dev/null || echo False)
 [ "$PYV" = "True" ] || brew install python@3.12
 command -v tmux >/dev/null || brew install tmux
+command -v gh >/dev/null || brew install gh
 command -v bun >/dev/null || [ -x "$HOME/.bun/bin/bun" ] || echo "Note: the Telegram plugin needs Bun. Install: curl -fsSL https://bun.sh/install | bash"
 command -v claude >/dev/null || echo "Note: Claude Code isn't on the PATH yet. Install: curl -fsSL https://claude.ai/install.sh | bash"
 [ -d "/Applications/Google Chrome.app" ] || echo "Note: Google Chrome is used to make PDFs. Install it if you want PDF reports."

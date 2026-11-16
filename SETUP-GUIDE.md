@@ -22,9 +22,9 @@ Open **Terminal** (Cmd+Space, type Terminal). Paste each line, press Enter, wait
    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
    ```
    At the end it prints 2 lines starting with `echo` under "Next steps": run those too.
-2. Git, Python, tmux:
+2. Git, GitHub sign-in tool, Python, tmux:
    ```
-   brew install git python@3.12 tmux
+   brew install git gh python@3.12 tmux
    ```
 3. Claude Code:
    ```
@@ -40,13 +40,19 @@ Open **Terminal** (Cmd+Space, type Terminal). Paste each line, press Enter, wait
 
 ## Part 2: Get the kit (5 min)
 
+First she accepts the GitHub invite to the private repo (email from GitHub, or github.com/notifications).
+Then:
 ```
-git clone https://github.com/<your-github-name>/advisor-pa.git ~/AdvisorPA
+gh auth login
+```
+Pick: GitHub.com → HTTPS → Yes (authenticate Git) → Login with a web browser. It shows a code; the browser opens,
+she signs in to her GitHub account and enters the code. Then:
+```
+gh repo clone mekinial/advisor-pa ~/AdvisorPA
 cd ~/AdvisorPA
 ./setup.sh
 ```
-If GitHub asks her to sign in: she needs read access to your private repo. Add her GitHub account as a
-collaborator first (GitHub repo → Settings → Collaborators), or see "Updates" below for other options.
+(After this, `./update.sh` can pull updates without asking her to sign in again.)
 
 `setup.sh` makes the Python environment, the folders, and her own private files (config.json, Me.md,
 Preferences.md, Voice.md, a blank client workbook and pipeline).

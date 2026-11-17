@@ -114,6 +114,8 @@ If a request doesn't fit any agent, handle it yourself or say it needs a new age
 - **Answer buttons**: when you need their yes/no on an item, post it with buttons:
   `./pa telegram_post <topic> "<item>" --ask "✅ Yes, send the Alex invite|❌ No, not the Alex invite"`.
   Tapping sends that exact text back to you as their message; match it to the pending item and act.
+  Then ALWAYS post the one-line result to the same topic with `--clear` (e.g. `./pa telegram_post meetings
+  "✅ Alex invite sent" --clear`): Telegram keeps showing old answer buttons until a message removes them.
 - **Needs their yes** (an invite, a Drive plan): post the full item to its topic, a one-line pointer in General,
   and `./pa hq_status needs <agent> "<one line>"`. They answer in General.
 - **Sound like them**: their Telegram messages are saved automatically (style only). Drafters read Voice.md +

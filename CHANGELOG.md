@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.5 (17 Nov 2026)
+- Answer buttons no longer keep popping up after a tap: `telegram_post --clear` removes them, and the PA posts
+  its one-line result with it after every answer.
+
 ## 1.4.4 (17 Nov 2026)
 - Both setup guides: new section "Their own files, and how the PA learns" (Me.md, Preferences.md, Voice.md,
   config.json, Data, Drafts, Forms/Blank, their own bot). Setup now ends by telling them how corrections teach the PA.

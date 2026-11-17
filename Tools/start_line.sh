@@ -17,13 +17,14 @@ fi
 command -v tmux >/dev/null || { echo "tmux is not installed (brew install tmux)"; exit 1; }
 tmux has-session -t pa-line 2>/dev/null && tmux kill-session -t pa-line
 
+# The folders are created now if missing, so the set never changes later: each new folder makes Claude Code ask
+# "trust this folder?" at the next start, and a hidden line can't answer that.
 ADD=("$HOME/.claude/channels/telegram/inbox")
-MEM="$HOME/.claude/projects/$(echo "$DIR" | sed 's#[/ ._]#-#g')/memory"
-[ -d "$MEM" ] && ADD+=("$MEM")
+ADD+=("$HOME/.claude/projects/$(echo "$DIR" | sed 's#[^A-Za-z0-9-]#-#g')/memory")
 PY="$DIR/.venv/bin/python"; [ -x "$PY" ] || PY=python3
-while IFS= read -r d; do [ -n "$d" ] && [ -d "$d" ] && ADD+=("$d"); done < <(
+while IFS= read -r d; do [ -n "$d" ] && ADD+=("$d"); done < <(
   "$PY" -c "import sys; sys.path.insert(0, sys.argv[1]); import pa_config as C; print(C.PRODUCT_LIBRARY); print(C.FORMS_LIBRARY)" "$DIR/Tools" 2>/dev/null)
-mkdir -p "${ADD[0]}"
+for d in "${ADD[@]}"; do mkdir -p "$d"; done
 
 CMD="cd $(printf %q "$DIR") && export ADMIN_TEAM_LINE=telegram && claude --channels plugin:telegram@claude-plugins-official --permission-mode auto --add-dir"
 for d in "${ADD[@]}"; do CMD+=" $(printf %q "$d")"; done

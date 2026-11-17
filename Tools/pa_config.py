@@ -55,7 +55,7 @@ def path(p):
     if not p:
         return ""
     p = os.path.expanduser(p)
-    return p if os.path.isabs(p) else os.path.join(ROOT, p)
+    return os.path.normpath(p if os.path.isabs(p) else os.path.join(ROOT, p))
 
 
 POLICIES_XLSX = path(CFG["files"]["policies_xlsx"])

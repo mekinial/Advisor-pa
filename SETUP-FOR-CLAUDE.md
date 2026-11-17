@@ -31,9 +31,12 @@ Ask, one by one, and fill Me.md and config.json "me":
 Show her the finished Me.md and the "me", "top", "schedule" parts of config.json before moving on.
 
 ## 2. Telegram
-1. Install the plugin: `/plugin marketplace add anthropics/claude-plugins-official` (if needed), then
-   `/plugin install telegram@claude-plugins-official`. Read the plugin's README (in ~/.claude/plugins/) for the
-   exact configure and pairing commands of the installed version, and follow them:
+1. Install the plugin. These are slash commands, so SHE types them in this chat (you can't run them yourself):
+   `/plugin marketplace add anthropics/claude-plugins-official` (if needed), then
+   `/plugin install telegram@claude-plugins-official`. If the plugin's own commands don't show up afterwards, she
+   types `/exit`, starts `claude` again in this folder and says "carry on with SETUP-FOR-CLAUDE.md from step 2".
+   Read the plugin's README (in ~/.claude/plugins/) for the exact configure and pairing commands of the installed
+   version, and follow them (again, she types any slash commands):
    - configure the bot token (she pastes it; never repeat it back),
    - she sends a DM to her bot, then pair her account so access.json "allowFrom" holds only her user id,
    - set the DM policy to allowlist.
@@ -49,7 +52,9 @@ Show her the finished Me.md and the "me", "top", "schedule" parts of config.json
 3. Test: `./pa telegram_post main "👋 Your PA is connected"` and `./pa telegram_post admin "Admin topic test"`.
    She should see one message in General and one in a new "🗂 Admin" topic.
 4. Start the line so she can see it the first time, and answer Claude Code's first-run questions (trust each
-   folder, channel confirmation) with her watching:
+   folder, channel confirmation) with her watching. The line reads a fixed set of folders (Telegram inbox, its memory
+   folder, the product and forms libraries in config.json); they are created if missing so she trusts them all now.
+   If she later changes those library paths in config.json, do this visible start once more.
    - **Mac:** `./pa line start`, then she runs `tmux attach -t pa-line` in Terminal, answers any question there,
      then Ctrl-b, d to leave it running.
    - **Windows:** `./pa line start --visible`. A console window titled "PA - Telegram line" opens; she answers any
@@ -74,16 +79,20 @@ Show her the finished Me.md and the "me", "top", "schedule" parts of config.json
 - If she has GE product documents or blank forms she downloaded herself, put them in the folders named in
   config.json files.product_library / files.forms_library (or change the paths). Then `./pa library_search index`.
   On Windows, Documents is sometimes inside OneDrive (C:\Users\<her>\OneDrive\Documents): check where her files
-  really are and set the paths to match.
+  really are and set the paths to match. Best done BEFORE step 2.4; if you change the paths after the line has
+  started, restart it visibly once (step 2.4) so she can trust the new folders.
 
 ## 5. Google connectors
 - In the Claude desktop app (Settings → Connectors) she connects Google Calendar and Google Drive with her own
   Google account. The meeting-prep, briefs, week ahead and drive-organizer use them.
 
 ## 6. Scheduled tasks (Claude desktop app)
-- Create each task in scheduled-tasks/README.md with the scheduled-tasks tool (or tell her how to add it in the app),
-  using the prompt file's text with `<PA>` replaced by this folder's full path. Ask before adding the optional
-  auto-resume task (it uses some of her usage every 30 minutes).
+- Create each task in scheduled-tasks/README.md with the scheduled-tasks tool if you have it. In a Terminal /
+  PowerShell chat you usually don't: then walk her through adding each one in the Claude desktop app's scheduled
+  tasks (in the Code tab; menu names can change between app versions, so look with her): name, time, the PA folder
+  as the task's folder, and the prompt file's text with `<PA>`
+  replaced by this folder's full path in quotes. Ask before adding the optional auto-resume task (it uses some of
+  her usage every 30 minutes).
 - Run the daily To message task once now ("Run now") to test.
 
 ## 6b. WhatsApp reply check (optional, ask her)
@@ -104,8 +113,9 @@ Show her the finished Me.md and the "me", "top", "schedule" parts of config.json
   It turns on: the Telegram line at sign-in, the watchdog (every 5 min), Drive sync (every 10 min, only does
   something if config.json drive_sync has entries) and, if enabled, the WhatsApp check at 4:07am.
   (Mac: launchd jobs. Windows: a Startup-folder shortcut for the line and Task Scheduler tasks "AdvisorPA …".)
-  Run it again whenever whatsapp.enabled changes. Before turning it on, stop the line you started by hand
-  (`./pa line stop`), then `./pa line start` so the background copy is the only one.
+  Run it again whenever whatsapp.enabled changes. The line already running from step 2.4 carries on (never two
+  copies). **Windows:** it is still in a visible window, so afterwards run `./pa line stop` then `./pa line start`
+  to have it run hidden.
 - Tell her about sleep: the computer must be awake for the PA to answer (Part 5 of her guide). She changes the
   setting herself.
 

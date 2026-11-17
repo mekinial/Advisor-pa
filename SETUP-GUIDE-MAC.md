@@ -2,7 +2,7 @@
 
 (Setting up on a Windows PC? Use SETUP-GUIDE-WINDOWS.md instead.)
 
-About 60–90 minutes, best done together in person. You'll need: the MacBook (plugged in), her phone with
+About 60–90 minutes, best done together in person. You'll need: the Mac (a MacBook plugged in), her phone with
 Telegram, her Claude Pro login, and her Google account. Claude does most of the typing; she approves.
 
 What she gets: a PA on Telegram that she chats with from her phone, plus the specialist agents (follow-up,
@@ -19,11 +19,12 @@ clients, settings and drafts live in files that are never uploaded and never tou
 
 Open **Terminal** (Cmd+Space, type Terminal). Paste each line, press Enter, wait for it to finish.
 
-1. Homebrew (the Mac's app installer; asks for her Mac password once):
+1. Homebrew (the Mac's app installer; asks for her Mac password, and may install Apple's "Command Line Tools"
+   first, which can take 10 minutes):
    ```
    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
    ```
-   At the end it prints 2 lines starting with `echo` under "Next steps": run those too.
+   At the end it shows a few commands under "Next steps" (to add Homebrew to the PATH): copy and run those too.
 2. Git, GitHub sign-in tool, Python, tmux:
    ```
    brew install git gh python@3.12 tmux
@@ -32,13 +33,15 @@ Open **Terminal** (Cmd+Space, type Terminal). Paste each line, press Enter, wait
    ```
    curl -fsSL https://claude.ai/install.sh | bash
    ```
+   If it says a folder is not in your PATH, run the line it shows.
 4. Bun (the Telegram plugin needs it):
    ```
    curl -fsSL https://bun.sh/install | bash
    ```
 5. Also install, if she doesn't have them: **Google Chrome** (used to make PDFs), **Google Drive for desktop**
    (only if she wants files synced to Drive) and the **Claude desktop app** (for the scheduled tasks).
-6. Close Terminal and open it again (so the new commands are found).
+6. Close Terminal and open it again (so the new commands are found). Check: `git --version`, `python3.12 --version`,
+   `tmux -V`, `claude --version` and `bun --version` each print a version.
 
 ## Part 2: Get the kit (5 min)
 
@@ -115,6 +118,13 @@ day's list). It is read only: it never opens a chat, types or sends, and it neve
 - macOS asks for one permission: System Settings → Privacy & Security → **Full Disk Access** → add the PA's Python
   (`./pa whatsapp_scan where` prints the exact path and steps). She switches it on herself.
 - Test: `./pa whatsapp_scan test` should say "OK: read N chats". Claude then turns it on during setup.
+
+## macOS pop-ups to expect (she answers them herself)
+
+- "Terminal would like to access files in your Documents folder": Allow (the product and forms libraries live there).
+- "Background Items Added" after `./setup.sh background`: expected, those are the PA's background jobs.
+- The first "screenshot" from Telegram asks for **Screen Recording** permission for Terminal (System Settings →
+  Privacy & Security); only if she wants that feature.
 
 ## Not included in this version
 

@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.4.2 (17 Nov 2026)
+- Telegram line: the folders it reads (Telegram inbox, its memory folder, product and forms libraries) are now
+  created up front, so she trusts them all at the first visible start. Before, a folder that appeared later made the
+  hidden line wait on a "trust this folder?" question nobody could see.
+- Setup guides checked end to end: Mac (Homebrew "Next steps", version checks, macOS pop-ups to expect), Windows
+  (PATH note, paste tip), SETUP-FOR-CLAUDE (she types the /plugin commands; scheduled tasks added in the Claude app
+  with the PA folder chosen; when to re-run the visible start; Windows hides the line after setup).
+
 ## 1.4.1 (17 Nov 2026)
 - "Update the PA" from Telegram now restarts the line straight away on both Mac and Windows (`./pa line restart`
   runs on its own, so stopping the line no longer cuts off the update; before, the watchdog brought it back

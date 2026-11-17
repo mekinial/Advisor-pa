@@ -20,7 +20,7 @@ clients, settings and drafts live in files that are never uploaded and never tou
 ## Part 1: Install the basics (15 min)
 
 Open **PowerShell**: Start menu → type `PowerShell` → open **Windows PowerShell** (not "as administrator").
-Paste each line (right-click pastes), press Enter, wait for it to finish. `winget` is Windows' own app installer.
+Paste each line (Ctrl+V, or right-click), press Enter, wait for it to finish. `winget` is Windows' own app installer.
 
 1. Git (Claude Code needs it on Windows; it also brings Git Bash):
    ```
@@ -35,6 +35,7 @@ Paste each line (right-click pastes), press Enter, wait for it to finish. `winge
    ```
    irm https://claude.ai/install.ps1 | iex
    ```
+   If it says a folder is not in your PATH, follow what it shows (or let Claude fix it later in the setup chat).
 4. Bun (the Telegram plugin needs it):
    ```
    irm bun.sh/install.ps1 | iex
@@ -65,8 +66,7 @@ cd $HOME\AdvisorPA
 `setup.cmd` makes the Python environment, the folders, and her own private files (config.json, Me.md,
 Preferences.md, Voice.md, a blank client workbook and pipeline). The PA folder is `C:\Users\<her name>\AdvisorPA`.
 Keep it there, outside OneDrive: her client files shouldn't sync to the cloud, and OneDrive can lock files while
-the PA is using them.
-It may take 5–10 minutes the first time (the voice-note transcriber is a big download).
+the PA is using them. Setup may take 5–10 minutes the first time (the voice-note transcriber is a big download).
 
 ## Part 3: Telegram bot and HQ group (15 min, on her phone)
 

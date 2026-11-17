@@ -72,13 +72,15 @@ def started_at():
 
 
 def add_dirs():
-    dirs = [C.TG_INBOX]
+    """Folders the line may read. They are created now if missing, so the set never changes later: each new folder
+    makes Claude Code ask "trust this folder?" at the next start, and a hidden line can't answer that."""
     slug = "".join(ch if ch.isalnum() or ch == "-" else "-" for ch in ROOT)
     mem = os.path.join(os.path.expanduser("~"), ".claude", "projects", slug, "memory")
-    for d in (mem, C.PRODUCT_LIBRARY, C.FORMS_LIBRARY):
-        if d and os.path.isdir(d):
+    dirs = []
+    for d in (C.TG_INBOX, mem, C.PRODUCT_LIBRARY, C.FORMS_LIBRARY):
+        if d:
+            os.makedirs(d, exist_ok=True)
             dirs.append(d)
-    os.makedirs(dirs[0], exist_ok=True)
     return dirs
 
 

@@ -4,7 +4,8 @@ Prompts for the Claude desktop app's scheduled tasks. They need the Google Calen
 the Claude app, not launchd. During setup Claude creates them from these files. Times are Singapore time.
 `<PA>` means the PA folder: replace it with the real full path when creating the task, in quotes
 (Mac e.g. "/Users/jane/AdvisorPA"; Windows e.g. "C:\Users\jane\AdvisorPA": the tasks' shell on Windows is Git Bash,
-which accepts that form in quotes). The computer must be awake and the Claude app open for them to run.
+which accepts that form in quotes). Choose the PA folder as each task's folder. The computer must be awake and the
+Claude app open for them to run.
 
 | Task | When | File |
 |---|---|---|

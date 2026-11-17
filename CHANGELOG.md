@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.4 (17 Nov 2026)
+- Both setup guides: new section "Their own files, and how the PA learns" (Me.md, Preferences.md, Voice.md,
+  config.json, Data, Drafts, Forms/Blank, their own bot). Setup now ends by telling them how corrections teach the PA.
+
 ## 1.4.3 (17 Nov 2026)
 - Gender-neutral wording everywhere (guides, agents, scheduled tasks, tools): the kit is for any adviser, so it
   says "they" / "the adviser" instead of "she" / "her". No behaviour change.

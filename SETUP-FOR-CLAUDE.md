@@ -52,7 +52,7 @@ Show them the finished Me.md and the "me", "top", "schedule" parts of config.jso
 3. Test: `./pa telegram_post main "👋 Your PA is connected"` and `./pa telegram_post admin "Admin topic test"`.
    They should see one message in General and one in a new "🗂 Admin" topic.
 4. Start the line so they can see it the first time, and answer Claude Code's first-run questions (trust each
-   folder, channel confirmation) with their watching. The line reads a fixed set of folders (Telegram inbox, its memory
+   folder, channel confirmation) with them watching. The line reads a fixed set of folders (Telegram inbox, its memory
    folder, the product and forms libraries in config.json); they are created if missing so they trust them all now.
    If they later change those library paths in config.json, do this visible start once more.
    - **Mac:** `./pa line start`, then they run `tmux attach -t pa-line` in Terminal, answer any question there,
@@ -121,5 +121,7 @@ Show them the finished Me.md and the "me", "top", "schedule" parts of config.jso
 
 ## 8. Finish
 - `./pa hq_status done coordinator "PA setup finished"`.
-- Tell them in 5 lines: how to chat with the PA (General), what lands in each topic, the daily rhythm, how to say
-  "done 1 3" / "skip 2", and "update the PA" for updates. List anything left from your list.
+- Tell them in 6 lines: how to chat with the PA (General), what lands in each topic, the daily rhythm, how to say
+  "done 1 3" / "skip 2", and "update the PA" for updates. Also tell them how it learns: correct any draft in plain
+  words and it is saved in Preferences.md ("📌 Noted for next time"); Voice.md picks up their writing style from their
+  Telegram messages. Point them to "Their own files, and how the PA learns" in their guide. List anything left from your list.

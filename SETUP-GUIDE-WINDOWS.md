@@ -98,6 +98,25 @@ Claude asks for their own client list and pipeline (their Excel file or a Google
 - TOP clients: they type or export their TOP list as `Drafts\Follow-ups\top-list-YYYY-MM-DD.csv`
   (columns: Name, Postal code, Call name, Area, Flag; see templates\top-list-TEMPLATE.csv).
 
+## Their own files, and how the PA learns
+
+Every adviser has their own copy of these, made on their computer during setup. Nothing is shared between
+advisers, nothing goes to GitHub, and updates never touch them.
+
+| File / folder | What it is | How it gets filled |
+|---|---|---|
+| Me.md | Who they are: name, what clients call them, how they title meetings, events to ignore, where they're based | Claude asks during setup. To change it later, just tell the PA |
+| Preferences.md | Their likes and dislikes for drafts | **Learns from corrections**: each time they correct something ("too formal", "no emojis for older clients"), the PA adds a dated rule and replies "📌 Noted for next time" |
+| Voice.md | How they write, so drafts sound like them | **Learns from their Telegram messages** (writing style only, kept on their computer). Once a day the PA adds a line if it notices something new |
+| config.json | Settings: meeting times to offer, their area, friends who get a plain birthday wish, Drive sync, WhatsApp check | Claude fills it in during setup. Change it any time by asking the PA |
+| Data\ | Their client workbook and pipeline | Filled from their own client list in Part 4. Meeting notes they send update the pipeline |
+| Drafts\ | Everything the agents write | Drafts only: nothing is ever sent from here |
+| Forms\Blank\ | Blank forms to pre-fill | They put in forms they downloaded themselves |
+| The bot and HQ group | Their own Telegram bot (Part 3), paired to their own account only | Never share a bot or group with another adviser |
+
+The PA also keeps its own memory notes on their computer for things it works out along the way.
+**The more they correct it, the better it gets:** say what's wrong in plain words and it remembers.
+
 ## Part 5: Keep it running
 
 - The PC must be **on, signed in and online** for the PA to answer and for the daily tasks to run. When it

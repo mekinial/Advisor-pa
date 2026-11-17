@@ -73,6 +73,8 @@ Show her the finished Me.md and the "me", "top", "schedule" parts of config.json
 ## 4. Product library and forms (optional)
 - If she has GE product documents or blank forms she downloaded herself, put them in the folders named in
   config.json files.product_library / files.forms_library (or change the paths). Then `./pa library_search index`.
+  On Windows, Documents is sometimes inside OneDrive (C:\Users\<her>\OneDrive\Documents): check where her files
+  really are and set the paths to match.
 
 ## 5. Google connectors
 - In the Claude desktop app (Settings → Connectors) she connects Google Calendar and Google Drive with her own

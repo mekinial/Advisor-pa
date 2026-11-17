@@ -6,6 +6,7 @@
                                it keeps running. (Mac: it always runs in tmux; look with tmux attach -t pa-line.)
   ./pa line stop               stop it; the watchdog then leaves it stopped until "line start"
   ./pa line status             running or not
+  ./pa line restart            stop and start again (used by update.sh; safe to run from inside the line)
 
 The line is Claude Code with the Telegram channel. Keep only ONE copy: two copies on the same bot fight over
 messages (start checks). It runs unattended, so --permission-mode auto lets the safety checker decide instead of
@@ -140,14 +141,31 @@ def stop(keep_on=False):
     print(f"Telegram line stopped ({n} process)." if n else "Telegram line was not running.")
 
 
+def restart():
+    """Stop and start again from a separate background process, so it also works when called from inside the line
+    (e.g. "update the PA" on Telegram: stopping the line would otherwise also stop the command doing the restart)."""
+    log = open(os.path.join(ST, "line-restart.log"), "a")
+    C.start_detached([sys.executable, "-X", "utf8", HERE, "_restart"], cwd=ROOT,
+                     stdin=subprocess.DEVNULL, stdout=log, stderr=log)
+    print("Telegram line will restart in a few seconds.")
+
+
 def main():
     a = sys.argv[1:]
-    if not a or a[0] not in ("start", "stop", "status", "run"):
+    if not a or a[0] not in ("start", "stop", "status", "run", "restart", "_restart"):
         sys.exit(__doc__)
+    os.makedirs(ST, exist_ok=True)
     if a[0] == "start":
         start(visible="--visible" in a)
     elif a[0] == "stop":
         stop(keep_on="--keep-on" in a)
+    elif a[0] == "restart":
+        restart()
+    elif a[0] == "_restart":
+        time.sleep(5)            # let the caller finish its reply first
+        stop(keep_on=True)
+        time.sleep(4)
+        start()
     elif a[0] == "run":
         run()
     else:

@@ -22,10 +22,13 @@ def browser():
               "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge",
               "/Applications/Chromium.app/Contents/MacOS/Chromium",
               r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe",
-              r"C:\Program Files\Google\Chrome\Application\chrome.exe"):
+              r"C:\Program Files\Microsoft\Edge\Application\msedge.exe",
+              r"C:\Program Files\Google\Chrome\Application\chrome.exe",
+              r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
+              os.path.expandvars(r"%LOCALAPPDATA%\Google\Chrome\Application\chrome.exe")):
         if os.path.exists(b):
             return b
-    sys.exit("No Chrome or Edge found to make the PDF. Install Google Chrome.")
+    sys.exit("No Chrome or Edge found to make the PDF. Install Google Chrome (Windows PCs normally have Edge).")
 
 DISCLAIMER = ("This document is for discussion purposes and is based on the information available at the date shown. "
               "It does not constitute an offer or a recommendation. Non-guaranteed values and past performance are not "

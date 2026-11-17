@@ -6,7 +6,7 @@
 DIR="$(cd "$(dirname "$0")" && pwd)"
 PY="$DIR/.venv/bin/python"                                  # Mac
 [ -x "$PY" ] || PY="$DIR/.venv/Scripts/python.exe"          # Windows (Git Bash, which Claude Code uses there)
-[ -x "$PY" ] || PY="$(command -v python3 || command -v python)"
+[ -x "$PY" ] || PY="$(command -v py || command -v python3 || command -v python)"
 if [ -z "$1" ]; then
   echo "usage: ./pa <tool> [args]   tools:"; ls "$DIR/Tools" | grep '\.py$' | grep -v '^pa_config' | sed 's/\.py$//; s/^/  /'
   exit 1

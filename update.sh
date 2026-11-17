@@ -6,6 +6,7 @@ set -e
 DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$DIR"
 PY="$DIR/.venv/bin/python"; [ -x "$PY" ] || PY="$DIR/.venv/Scripts/python.exe"
+[ -x "$PY" ] || { echo "No Python environment yet: run setup first (Mac ./setup.sh, Windows setup.cmd)."; exit 1; }
 before=$(git rev-parse --short HEAD)
 git pull --ff-only
 after=$(git rev-parse --short HEAD)
@@ -16,7 +17,8 @@ else
   echo "Updated. What changed:"; git log --oneline "$before..$after"
   [ -f CHANGELOG.md ] && echo "(details in CHANGELOG.md)"
   if "$PY" -X utf8 Tools/line.py status | grep -q "is running"; then
-    echo "Restarting the Telegram line so it uses the new version..."
-    "$PY" -X utf8 Tools/line.py stop --keep-on; sleep 3; "$PY" -X utf8 Tools/line.py start
+    # restart runs on its own (detached), because this script may itself be running inside the Telegram line
+    echo "Restarting the Telegram line in a few seconds so it uses the new version..."
+    "$PY" -X utf8 Tools/line.py restart
   fi
 fi

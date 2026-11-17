@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.4.1 (17 Nov 2026)
+- "Update the PA" from Telegram now restarts the line straight away on both Mac and Windows (`./pa line restart`
+  runs on its own, so stopping the line no longer cuts off the update; before, the watchdog brought it back
+  within 5 minutes).
+- Windows: PDFs also find Edge/Chrome in their other install folders; `pa` falls back to the py launcher before
+  setup; update.sh says "run setup first" if there's no Python environment; guides mention keeping the PA folder
+  out of OneDrive.
+
 ## 1.4 (17 Nov 2026)
 - **Windows support.** The kit now runs on a Mac or a Windows 10/11 PC. New SETUP-GUIDE-WINDOWS.md (the Mac guide
   is now SETUP-GUIDE-MAC.md; SETUP-GUIDE.md says which to use). SETUP-FOR-CLAUDE.md covers both.

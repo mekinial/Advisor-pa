@@ -64,6 +64,8 @@ cd $HOME\AdvisorPA
 
 `setup.cmd` makes the Python environment, the folders, and her own private files (config.json, Me.md,
 Preferences.md, Voice.md, a blank client workbook and pipeline). The PA folder is `C:\Users\<her name>\AdvisorPA`.
+Keep it there, outside OneDrive: her client files shouldn't sync to the cloud, and OneDrive can lock files while
+the PA is using them.
 It may take 5–10 minutes the first time (the voice-note transcriber is a big download).
 
 ## Part 3: Telegram bot and HQ group (15 min, on her phone)

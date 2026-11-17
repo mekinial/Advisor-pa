@@ -1,4 +1,4 @@
-"""Hooks for the Telegram line only (does nothing unless ADMIN_TEAM_LINE=telegram, set by Tools/start_line.sh).
+"""Hooks for the Telegram line only (does nothing unless ADMIN_TEAM_LINE=telegram, set by ./pa line start / Tools/start_line.sh).
 
 - SessionStart     : saves the line's session id (for the watchdog) and loads the recent chat back in, so a
                      restart doesn't wipe what the adviser and the PA were talking about.

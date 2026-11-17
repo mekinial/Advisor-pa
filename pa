@@ -1,10 +1,12 @@
 #!/bin/bash
 # Run one of the PA's tools with the PA's own Python:   ./pa <tool> [args]
+# Works on a Mac and in Git Bash on Windows. In Windows PowerShell or Command Prompt use pa.cmd instead (same arguments).
 #   ./pa telegram_post main "Hello"        (= Tools/telegram_post.py)
 #   ./pa .claude/skills/financial-health-check/scripts/health_check.py <file>   (any .py path works too)
 DIR="$(cd "$(dirname "$0")" && pwd)"
-PY="$DIR/.venv/bin/python"
-[ -x "$PY" ] || PY="python3"
+PY="$DIR/.venv/bin/python"                                  # Mac
+[ -x "$PY" ] || PY="$DIR/.venv/Scripts/python.exe"          # Windows (Git Bash, which Claude Code uses there)
+[ -x "$PY" ] || PY="$(command -v python3 || command -v python)"
 if [ -z "$1" ]; then
   echo "usage: ./pa <tool> [args]   tools:"; ls "$DIR/Tools" | grep '\.py$' | grep -v '^pa_config' | sed 's/\.py$//; s/^/  /'
   exit 1

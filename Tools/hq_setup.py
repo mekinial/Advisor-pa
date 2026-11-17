@@ -5,7 +5,7 @@ Before running:
      (access.json "allowFrom" holds exactly her user id).
   2. She created a Telegram group with ONLY herself and the bot, made the bot an admin, turned Topics on,
      and sent any message (e.g. "hello") in the group.
-  3. The Telegram line is NOT running (Tools/stop_line.sh), so this script can read the bot's new messages once.
+  3. The Telegram line is NOT running (./pa line stop), so this script can read the bot's new messages once.
 
   ./pa hq_setup          find the group, save its id (hq/hq.json) and let the plugin listen there (access.json)
   ./pa hq_setup --check  only run the safety check (2 members, she is in it, Topics on)
@@ -37,7 +37,7 @@ def main():
     r = hq.api(token, "getUpdates", timeout=0, allowed_updates=["message", "my_chat_member"])
     if not r.get("ok"):
         sys.exit("Couldn't read the bot's messages: " + str(r.get("description")) +
-                 " (is the Telegram line still running? Stop it first: Tools/stop_line.sh)")
+                 " (is the Telegram line still running? Stop it first: ./pa line stop)")
     groups = {}
     for u in r.get("result", []):
         m = u.get("message") or u.get("my_chat_member") or {}

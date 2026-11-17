@@ -313,7 +313,9 @@ def send_telegram(items, dry=False):
     try:
         top, g, shown, sf = top_today(base, day)
         left = sum(1 for p in g["people"] if p["full"] not in shown and p not in top)
-    except Exception as e:  # TOP list missing or broken: still send the reminders
+    except SystemExit as e:  # no TOP list yet: normal for a new setup
+        print("TOP intros skipped:", e)
+    except Exception as e:  # TOP list broken: still send the reminders
         print("TOP intros skipped:", type(e).__name__, e)
     for p in top:
         if p.get("slots") and not dry:  # hold their offered times so nobody else is offered them

@@ -1,4 +1,5 @@
-"""Telegram line watchdog. Run every 5 minutes by launchd (job "com.advisorpa.watchdog", set up by setup.sh).
+"""Telegram line watchdog. Run every 5 minutes in the background (Mac: launchd job "com.advisorpa.watchdog" from
+./setup.sh background; Windows: Task Scheduler task "AdvisorPA watchdog" from setup.cmd background).
 It restarts the line when:
   1. the line isn't running at all;
   2. it has waited 15+ min for an approval nobody answered (Drafts/Status/stuck-alert.json from tg_stuck_alert.py);
@@ -6,13 +7,15 @@ It restarts the line when:
      for 20+ min (read from the activity log Drafts/Office/events.jsonl, session id from tg-line.json).
 After a restart the line reloads the recent chat (tg_line_hooks.py) and a "🔄 Back" line is posted in General.
 Never starts a second copy. Logs to Drafts/Status/watchdog.log.
-The line itself runs in a hidden tmux session called "pa-line" (Tools/start_line.sh). To look at it:
-tmux attach -t pa-line (leave again with Ctrl-b then d).
+It also spots a line that is stuck on a start-up question (e.g. "trust this folder?") and says so once instead of
+restarting it every 5 minutes, because restarting can't answer the question.
+Start/stop go through Tools/line.py (Mac: hidden tmux session "pa-line"; Windows: hidden console window).
 """
 import os, sys, json, time, subprocess
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import pa_config as C
+import line as L
 
 ROOT = C.ROOT
 ST = os.path.join(ROOT, "Drafts", "Status")
@@ -21,7 +24,8 @@ STUCK = os.path.join(ST, "stuck-alert.json")
 LINE = os.path.join(ST, "tg-line.json")
 EVENTS = os.path.join(ROOT, "Drafts", "Office", "events.jsonl")
 PY = C.PY
-OFF = os.path.join(ST, "line-off")   # stop_line.sh creates this so the watchdog leaves the line stopped
+OFF = L.OFF                          # "./pa line stop" creates this so the watchdog leaves the line stopped
+STARTUP_FLAG = os.path.join(ST, "startup-stuck.flag")
 
 
 def log(t):
@@ -31,21 +35,20 @@ def log(t):
 
 
 def line_pids():
-    out = subprocess.run(["pgrep", "-f", "claude.*--channels"], capture_output=True, text=True).stdout
-    return [p for p in out.split() if p.isdigit() and int(p) != os.getpid()]
+    return L.pids()
 
 
 def start():
-    subprocess.run(["/bin/bash", os.path.join(ROOT, "Tools", "start_line.sh")], capture_output=True, timeout=60)
+    L.start()
 
 
 def post(text):
-    subprocess.run(PY + [os.path.join(ROOT, "Tools", "telegram_post.py"), "main", text], capture_output=True, timeout=90)
+    C.run_hidden(PY + [os.path.join(ROOT, "Tools", "telegram_post.py"), "main", text], capture_output=True, timeout=90)
 
 
 def restart(reason, note):
     log(f"Telegram line {reason} - restarting")
-    subprocess.run(["/bin/bash", os.path.join(ROOT, "Tools", "stop_line.sh"), "--keep-on"], capture_output=True, timeout=60)
+    L.stop(keep_on=True)
     time.sleep(4)
     start()
     time.sleep(45)
@@ -89,6 +92,22 @@ def main():
         restart("waited 15 min for an approval", "🔄 Back: a step needed your OK and nobody answered, so I skipped it "
                 "and restarted. I still remember our chat; tell me if you want to retry it.")
         return
+    # A copy that started after the saved session never reached SessionStart (tg_line_hooks.py writes tg-line.json),
+    # so it is waiting on a start-up question in its window. Say so once; don't restart it.
+    try:
+        saved = json.load(open(LINE)).get("started", 0)
+    except Exception:
+        saved = 0
+    proc = L.started_at()
+    if proc and proc > saved + 60:
+        if time.time() - proc > 10 * 60 and not os.path.exists(STARTUP_FLAG):
+            open(STARTUP_FLAG, "w").close()
+            log("Telegram line stuck at start-up (a question on screen?) - not restarting")
+            post("⚠️ The Telegram line is stuck at start-up (probably a question on screen, like trusting a folder). "
+                 "At the computer: ./pa line stop, then ./pa line start --visible and answer it.")
+        return
+    if os.path.exists(STARTUP_FLAG):
+        os.remove(STARTUP_FLAG)
     m = hung_minutes()
     if m > 20:
         restart(f"hung for {m:.0f} min", "🔄 Back: I got stuck on your last message and restarted. "

@@ -91,6 +91,8 @@ wb = load_workbook(XLSX, read_only=True, data_only=True)
 POL = list(wb["All Policies"].iter_rows(values_only=True))[1:]
 CON = list(wb["Contacts"].iter_rows(values_only=True))[1:]
 lists = sorted(f for f in os.listdir(OUT) if f.startswith("top-list-") and f.endswith(".csv"))
+if not lists:
+    raise SystemExit("No TOP list yet (Drafts/Follow-ups/top-list-YYYY-MM-DD.csv; see templates/top-list-TEMPLATE.csv).")
 TOP = list(csv.DictReader(open(os.path.join(OUT, lists[-1]), encoding="utf-8")))
 
 

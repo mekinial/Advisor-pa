@@ -1,4 +1,4 @@
-# About me (private: stays on this Mac, never shared, never changed by updates)
+# About me (private: stays on this computer, never shared, never changed by updates)
 
 Claude fills this in with me during setup. Every agent reads it.
 

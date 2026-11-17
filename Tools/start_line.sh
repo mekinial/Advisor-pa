@@ -5,6 +5,7 @@
 # and --add-dir gives it the folder where Telegram photos/files land (plus her product/forms libraries).
 # ADMIN_TEAM_LINE=telegram tells the hooks (tg_line_hooks.py, tg_stuck_alert.py) that this is the Telegram line.
 # Look at it:  tmux attach -t pa-line   (leave again: Ctrl-b then d).  Stop it:  Tools/stop_line.sh
+# Same thing on any computer: ./pa line start | stop | status
 DIR="$(cd "$(dirname "$0")/.." && pwd)"
 export PATH="/opt/homebrew/bin:/usr/local/bin:$HOME/.local/bin:$HOME/.bun/bin:$PATH"
 mkdir -p "$DIR/Drafts/Status"

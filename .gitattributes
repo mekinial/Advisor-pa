@@ -1,2 +1,12 @@
-* text=auto eol=lf
+# Line endings, so the kit works on both Mac and Windows whatever Git's own setting is.
+# Shell scripts and the ./pa runner must keep Unix endings (Git Bash on Windows fails on CRLF);
+# Windows batch and PowerShell files keep Windows endings.
+* text=auto
+pa text eol=lf
+*.sh text eol=lf
+*.py text eol=lf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
 *.xlsx binary
+*.png binary
+*.pdf binary

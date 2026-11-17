@@ -1,6 +1,6 @@
 #!/bin/bash
 # Get the latest version of the PA kit (Mac, or Git Bash on Windows; on Windows you can also double-click update.cmd).
-# Only the shared code changes: her config.json, Me.md, Preferences.md, Voice.md, Data/ and Drafts/ are never
+# Only the shared code changes: their config.json, Me.md, Preferences.md, Voice.md, Data/ and Drafts/ are never
 # touched (they are not part of the kit; see .gitignore).
 set -e
 DIR="$(cd "$(dirname "$0")" && pwd)"

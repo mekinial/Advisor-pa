@@ -1,6 +1,6 @@
 """Pick two meeting times to offer in intro messages ("Tue 17 Nov, 7.30pm or Sat 21 Nov, 11am").
 
-Her weekly rules come from config.json "schedule" (set up with her, edit any time):
+Their weekly rules come from config.json "schedule" (set up with them, edit any time):
 - candidates: start times that may be offered per weekday (24h), e.g. "tue": ["11:00", "19:30"].
 - blocks: times never offered per weekday, e.g. "fri": [["19:00", "23:59"]] for a standing evening plan.
 - meeting_minutes: meeting + travel buffer (default 90).

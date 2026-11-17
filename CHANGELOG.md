@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.3 (17 Nov 2026)
+- Gender-neutral wording everywhere (guides, agents, scheduled tasks, tools): the kit is for any adviser, so it
+  says "they" / "the adviser" instead of "she" / "her". No behaviour change.
+
 ## 1.4.2 (17 Nov 2026)
 - Telegram line: the folders it reads (Telegram inbox, its memory folder, product and forms libraries) are now
   created up front, so she trusts them all at the first visible start. Before, a folder that appeared later made the

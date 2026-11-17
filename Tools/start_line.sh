@@ -2,7 +2,7 @@
 # Starts the Telegram line: Claude Code with the Telegram channel, running in a hidden tmux session "pa-line".
 # Keep only ONE copy running: two copies on the same bot token fight over messages (this script checks).
 # It runs unattended, so --permission-mode auto lets the safety checker decide instead of waiting for a click,
-# and --add-dir gives it the folder where Telegram photos/files land (plus her product/forms libraries).
+# and --add-dir gives it the folder where Telegram photos/files land (plus their product/forms libraries).
 # ADMIN_TEAM_LINE=telegram tells the hooks (tg_line_hooks.py, tg_stuck_alert.py) that this is the Telegram line.
 # Look at it:  tmux attach -t pa-line   (leave again: Ctrl-b then d).  Stop it:  Tools/stop_line.sh
 # Same thing on any computer: ./pa line start | stop | status

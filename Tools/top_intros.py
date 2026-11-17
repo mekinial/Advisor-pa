@@ -136,7 +136,7 @@ INTRO = "Hi {n}! " + C.intro() + " 😊"
 ASK = "I'm meeting all my new clients for a quick 20-min handover review. Would {a} or {b} work better? {where}"
 ASK_NOSLOT = "I'm meeting all my new clients for a quick 20-min handover review. When would be a good time for you this week or next? {where}"
 # Where to meet: config.json top (near_postal_sectors = first 2 digits of nearby postal codes, near_areas = street
-# names for people without a postal code). Mention her area only to people living nearby; everyone else: near them or town.
+# names for people without a postal code). Mention their area only to people living nearby; everyone else: near them or town.
 NEAR_SECTORS = {str(s) for s in C.TOP["near_postal_sectors"]}  # config.json top.near_postal_sectors
 WHERE_FAR = C.TOP["where_far"]
 WHERE_NEAR = C.TOP["where_near"] or WHERE_FAR  # e.g. "I stay at <area>, so I'm nearby and happy to meet somewhere close to you ☺️"
@@ -246,7 +246,7 @@ for i, p in enumerate(people):
         elif ps:
             body.append("I'll be taking care of your policies from now on, including any claims or changes.")
             reason.append("General intro / review")
-        else:  # transferred to her, so they do have GE policies; just not in the workbook yet
+        else:  # transferred to them, so they do have GE policies; just not in the workbook yet
             body.append("I'll be taking care of your policies from now on, including any claims or changes.")
             reason.append("NO POLICIES IN FILE: general intro (check GE portal)")
         tier = 9
@@ -325,7 +325,7 @@ except Exception:
 # in list order (the next ones to be shown), so a late name on the list never pushes today's people out.
 for p in sorted(people, key=lambda q: (q["full"] not in _holds, q["full"] not in _shown)):
     p["slots"] = []
-    # 14 Nov 2026: people from earlier lists get times too, except those she has already WhatsApp'd
+    # 14 Nov 2026: people from earlier lists get times too, except those they have already WhatsApp'd
     # (top-already-messaged.csv): their intro is sent, so their message is left as it was.
     if p["full"] in _messaged and p["full"] not in _holds:
         continue

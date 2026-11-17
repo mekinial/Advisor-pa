@@ -3,16 +3,16 @@
 (Setting up on a Mac? Use SETUP-GUIDE-MAC.md instead.)
 
 About 60–90 minutes, best done together in person. You'll need: the PC or laptop (Windows 10 or 11, plugged in),
-her phone with Telegram, her Claude Pro login, and her Google account. Claude does most of the typing; she approves.
+their phone with Telegram, their Claude Pro login, and their Google account. Claude does most of the typing; they approve.
 Nothing in this guide needs administrator rights except installing the apps in Part 1 (Windows may ask "Allow this
-app to make changes?": she clicks Yes).
+app to make changes?": they click Yes).
 
-What she gets: a PA on Telegram that she chats with from her phone, plus the specialist agents (follow-up,
+What they get: a PA on Telegram that they chat with from their phone, plus the specialist agents (follow-up,
 forms, numbers, meeting briefs, client reports, proposals, investment write-ups, Drive tidy-up), the daily
 "To message" list (premium and birthday reminders, TOP intros), morning brief, evening wrap, week ahead,
 voice notes, background jobs and the optional financial health check.
 
-**Her client data stays on her PC.** The kit holds no client information (not yours, not anyone's). Her own
+**Their client data stays on their PC.** The kit holds no client information (not yours, not anyone's). Their own
 clients, settings and drafts live in files that are never uploaded and never touched by updates.
 
 ---
@@ -40,7 +40,7 @@ Paste each line (Ctrl+V, or right-click), press Enter, wait for it to finish. `w
    ```
    irm bun.sh/install.ps1 | iex
    ```
-5. Also install, if she doesn't have them: **Google Drive for desktop** (only if she wants files synced to
+5. Also install, if they don't have them: **Google Drive for desktop** (only if they want files synced to
    Drive) and the **Claude desktop app** (for the scheduled tasks). PDFs are printed with Microsoft Edge, which
    every Windows PC has (Google Chrome works too).
 6. **Close PowerShell and open it again** (so the new commands are found). Check: `git --version`,
@@ -49,30 +49,30 @@ Paste each line (Ctrl+V, or right-click), press Enter, wait for it to finish. `w
 
 ## Part 2: Get the kit (5 min)
 
-First she accepts the GitHub invite to the private repo (email from GitHub, or github.com/notifications).
+First they accept the GitHub invite to the private repo (email from GitHub, or github.com/notifications).
 Then, in PowerShell:
 ```
 gh auth login
 ```
 Pick: GitHub.com → HTTPS → Yes (authenticate Git) → Login with a web browser. It shows a code; the browser opens,
-she signs in to her GitHub account and enters the code. Then:
+they sign in to their GitHub account and enter the code. Then:
 ```
 gh repo clone mekinial/advisor-pa $HOME\AdvisorPA
 cd $HOME\AdvisorPA
 .\setup.cmd
 ```
-(After this, `.\update.cmd` can pull updates without asking her to sign in again.)
+(After this, `.\update.cmd` can pull updates without asking them to sign in again.)
 
-`setup.cmd` makes the Python environment, the folders, and her own private files (config.json, Me.md,
-Preferences.md, Voice.md, a blank client workbook and pipeline). The PA folder is `C:\Users\<her name>\AdvisorPA`.
-Keep it there, outside OneDrive: her client files shouldn't sync to the cloud, and OneDrive can lock files while
+`setup.cmd` makes the Python environment, the folders, and their own private files (config.json, Me.md,
+Preferences.md, Voice.md, a blank client workbook and pipeline). The PA folder is `C:\Users\<their name>\AdvisorPA`.
+Keep it there, outside OneDrive: their client files shouldn't sync to the cloud, and OneDrive can lock files while
 the PA is using them. Setup may take 5–10 minutes the first time (the voice-note transcriber is a big download).
 
-## Part 3: Telegram bot and HQ group (15 min, on her phone)
+## Part 3: Telegram bot and HQ group (15 min, on their phone)
 
-1. In Telegram, open **@BotFather** → `/newbot` → pick a name (e.g. "<Her name> HQ") and a username ending
+1. In Telegram, open **@BotFather** → `/newbot` → pick a name (e.g. "<Their name> HQ") and a username ending
    in `bot`. BotFather replies with a **token**. Keep it private: don't paste it anywhere except in step 5 below.
-2. Create a **new group** with only her and the new bot. Name it e.g. "<Her name> HQ".
+2. Create a **new group** with only them and the new bot. Name it e.g. "<Their name> HQ".
 3. Group settings → make the bot an **admin** → turn **Topics** on.
 4. Send "hello" in the group.
 5. On the PC, in PowerShell:
@@ -80,35 +80,35 @@ the PA is using them. Setup may take 5–10 minutes the first time (the voice-no
    cd $HOME\AdvisorPA
    claude
    ```
-   Trust the folder when asked, sign in to her Claude account, then type:
+   Trust the folder when asked, sign in to their Claude account, then type:
    **Set me up, follow SETUP-FOR-CLAUDE.md**
-   Claude walks through the rest: installing the Telegram plugin (she pastes the token when it asks),
-   pairing her Telegram account, connecting the HQ group, her settings, her client data, the scheduled tasks
-   and the background jobs. It asks her questions one at a time.
+   Claude walks through the rest: installing the Telegram plugin (they paste the token when it asks),
+   pairing their Telegram account, connecting the HQ group, their settings, their client data, the scheduled tasks
+   and the background jobs. It asks them questions one at a time.
 
-## Part 4: Her client data (15–30 min, inside the same Claude chat)
+## Part 4: Their client data (15–30 min, inside the same Claude chat)
 
-Claude asks for her own client list and pipeline (her Excel file or a Google Sheet download) and fills
-`Data\Client Policies.xlsx` and `Data\pipeline.csv` from it. It shows her what it mapped before saving.
+Claude asks for their own client list and pipeline (their Excel file or a Google Sheet download) and fills
+`Data\Client Policies.xlsx` and `Data\pipeline.csv` from it. It shows them what it mapped before saving.
 - The workbook needs, per policy: policyholder, product, status, issue date, premium frequency/status/expiry.
   Per contact: mobile/WhatsApp link, birthday, "Call them" name, "Send reminders" = Yes.
 - **Close Excel** before the daily list runs: a workbook that is open in Excel can't be read.
 - **GE systems:** GE does not allow AI tools to be connected to its platforms. Claude will never log in to or
-  browse Lifehub or the GE portal. She downloads any report or product document herself and gives Claude the file.
-- TOP clients: she types or exports her TOP list as `Drafts\Follow-ups\top-list-YYYY-MM-DD.csv`
+  browse Lifehub or the GE portal. They download any report or product document themselves and give Claude the file.
+- TOP clients: they type or export their TOP list as `Drafts\Follow-ups\top-list-YYYY-MM-DD.csv`
   (columns: Name, Postal code, Call name, Area, Flag; see templates\top-list-TEMPLATE.csv).
 
 ## Part 5: Keep it running
 
 - The PC must be **on, signed in and online** for the PA to answer and for the daily tasks to run. When it
   sleeps, messages wait and are picked up when it wakes (scheduled tasks catch up when the Claude app is open).
-- Sleep (she changes this herself): Settings → System → Power (& battery) → Screen and sleep → "When plugged in,
+- Sleep (they change this themselves): Settings → System → Power (& battery) → Screen and sleep → "When plugged in,
   put my device to sleep after" → **Never**. The screen can still turn off. On a laptop, closing the lid sleeps
-  it unless she changes "Choose what closing the lid does" in Control Panel → Power Options.
-- Windows Update sometimes restarts the PC overnight. After she signs in again, the line starts by itself.
+  it unless they change "Choose what closing the lid does" in Control Panel → Power Options.
+- Windows Update sometimes restarts the PC overnight. After they sign in again, the line starts by itself.
 - The **Claude desktop app** must be open for the scheduled tasks (8am list, briefs, wraps).
 - Background jobs (turned on by Claude at the end of setup with `.\setup.cmd background`):
-  - **Telegram line at sign-in:** a shortcut "AdvisorPA Telegram line" in her Startup folder.
+  - **Telegram line at sign-in:** a shortcut "AdvisorPA Telegram line" in their Startup folder.
   - **Watchdog** every 5 min, **Drive sync** every 10 min, optional **WhatsApp check** at 4:07am: Task Scheduler
     tasks named "AdvisorPA …". Turn them all off with `.\setup.cmd remove-background`.
 - Handy commands (in PowerShell, inside $HOME\AdvisorPA):
@@ -119,13 +119,13 @@ Claude asks for her own client list and pipeline (her Excel file or a Google She
 
 ## Updates
 
-When you improve the kit, you push to the GitHub repo; she runs `.\update.cmd` (or asks the PA to). Only the
-shared code changes. Her config.json, Me.md, Preferences.md, Voice.md, Data\ and Drafts\ are never part of the
+When you improve the kit, you push to the GitHub repo; they run `.\update.cmd` (or ask the PA to). Only the
+shared code changes. Their config.json, Me.md, Preferences.md, Voice.md, Data\ and Drafts\ are never part of the
 repo and never touched.
 
 ## Optional: WhatsApp reply check
 
-Each night at 4:07am it checks who sent the last WhatsApp message for everyone she has messaged from the To
+Each night at 4:07am it checks who sent the last WhatsApp message for everyone they have messaged from the To
 message list, and posts "your turn / waiting / unsure" to the Admin topic ("your turn" people also go on the next
 day's list). It is read only: it never opens a chat, types or sends, and it never reads message text.
 - On Windows it reads the chat list of the **WhatsApp desktop app** (Microsoft Store) the way a screen reader does,

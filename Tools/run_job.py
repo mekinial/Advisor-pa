@@ -75,7 +75,7 @@ def _run(jid):
               f"numbers/bank details, facts only from files). Nobody can answer questions or approve steps while "
               f"you run: if something needs the adviser, skip it and say so.\n\nTask: {task}\n\n"
               "Save anything you make under Drafts/. Finish with a short summary for the adviser (max 5 lines, plain text), "
-              "then one last line starting 'FILES:' with the absolute paths of files she should see, separated by ' | ' "
+              "then one last line starting 'FILES:' with the absolute paths of files they should see, separated by ' | ' "
               "(or 'FILES: none').")
     out_md = os.path.join(JOBS, jid + ".md")
     env = dict(os.environ); env.pop("ADMIN_TEAM_LINE", None)

@@ -1,6 +1,6 @@
-"""the adviser's voice: her own Telegram messages, kept so drafts can sound like her.
+"""the adviser's voice: their own Telegram messages, kept so drafts can sound like them.
 
-  voice.py samples [--n 40]   print her latest N messages (style reference for drafters)
+  voice.py samples [--n 40]   print their latest N messages (style reference for drafters)
   voice.py new                print messages since the last Voice.md refresh, then mark them as seen
   voice.py count              how many samples are stored
 

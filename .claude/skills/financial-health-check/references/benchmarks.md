@@ -39,7 +39,7 @@ moves to passive income, health and care, and legacy.
 
 Here, annual income means gross monthly × 12 plus bonus. "Months" means months of spending, excluding committed savings.
 
-the adviser measures cover against the **Planners Inc guidelines**, not the LIA 9×/4×. She sees LIA as the bare minimum,
+the adviser measures cover against the **Planners Inc guidelines**, not the LIA 9×/4×. They see LIA as the bare minimum,
 and the Planners Inc levels give a more comfortable buffer if a catastrophic illness happens. The multiples
 are in `protection-guides.json`, covering death/TPD, CI, early CI, personal accident and disability income as a
 percentage of income. The calculator reads them from there. Call them "the Planners Inc guideline" in reports.

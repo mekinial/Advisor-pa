@@ -1,9 +1,9 @@
 """WhatsApp reply check (optional; turn on with config.json "whatsapp": {"enabled": true}).
 
-For everyone she has messaged (TOP intros, birthday reviews, follow-ups marked done), it works out WHO SENT THE
+For everyone they have messaged (TOP intros, birthday reviews, follow-ups marked done), it works out WHO SENT THE
 LAST MESSAGE in WhatsApp and sorts them:
-  your turn  = they sent last (or there's an unread message)   -> added to her To message list
-  waiting    = she sent last                                   -> listed oldest first, for a nudge
+  your turn  = they sent last (or there's an unread message)   -> added to their To message list
+  waiting    = the adviser sent last                                   -> listed oldest first, for a nudge
   unsure     = couldn't tell, or not found in WhatsApp
 Read only, always: it never opens a chat, never types, never clicks, never sends anything, and never keeps message
 text. The report holds names and dates only.
@@ -193,7 +193,7 @@ def parse_date(s, today):
 def read_row(r, today):
     """-> dict(name, date, who, note) or None. who: 'them' | 'me' | 'unsure'. Preview text is NOT kept.
     WhatsApp hides the ticks from accessibility, but a ticked preview starts ~20px further right than the name
-    (tick icon); media previews have their own icon (~20px), so media she sent is ~40px."""
+    (tick icon); media previews have their own icon (~20px), so media they sent is ~40px."""
     t = _texts(r, [])
     t = [x for x in t if not re.fullmatch(r"\d+ unread messages?", x.Name or "")]
     unread = bool(re.match(r"\d+ unread message", r.Name or ""))
@@ -290,7 +290,7 @@ def read_chats(stop_before, today):
     raise SystemExit("The WhatsApp check works on a Mac or a Windows PC only.")
 
 
-# ================================================================ who she has messaged
+# ================================================================ who they have messaged
 def people():
     """{FULL NAME: earliest date messaged} from the CSV, contact-log 'done' rows and done to-do items."""
     ppl = {}

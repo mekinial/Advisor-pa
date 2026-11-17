@@ -1,14 +1,14 @@
-"""One-time: connect her private Telegram group ("HQ") to the PA.
+"""One-time: connect their private Telegram group ("HQ") to the PA.
 
 Before running:
-  1. The Telegram plugin is configured with her bot token and she has paired her own account in a DM with the bot
-     (access.json "allowFrom" holds exactly her user id).
-  2. She created a Telegram group with ONLY herself and the bot, made the bot an admin, turned Topics on,
+  1. The Telegram plugin is configured with their bot token and they have paired their own account in a DM with the bot
+     (access.json "allowFrom" holds exactly their user id).
+  2. They created a Telegram group with ONLY themselves and the bot, made the bot an admin, turned Topics on,
      and sent any message (e.g. "hello") in the group.
   3. The Telegram line is NOT running (./pa line stop), so this script can read the bot's new messages once.
 
   ./pa hq_setup          find the group, save its id (hq/hq.json) and let the plugin listen there (access.json)
-  ./pa hq_setup --check  only run the safety check (2 members, she is in it, Topics on)
+  ./pa hq_setup --check  only run the safety check (2 members, they are in it, Topics on)
 
 Never prints the bot token. Changes only ~/.claude/channels/telegram/access.json (adds the one group) and hq/hq.json.
 """

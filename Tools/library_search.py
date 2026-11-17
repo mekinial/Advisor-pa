@@ -1,5 +1,5 @@
-"""Local search over her own copy of the GE Product Library (folder: config.json files.product_library). She
-downloads the documents herself; nothing here logs in to or automates any GE system. Nothing leaves this computer.
+"""Local search over their own copy of the GE Product Library (folder: config.json files.product_library). They
+download the documents themselves; nothing here logs in to or automates any GE system. Nothing leaves this computer.
 
   ./pa library_search index                 add/refresh text of new or changed PDFs, Word, PowerPoint files
   ./pa library_search search "<words>" [--plan "<part of plan name>"] [--n 10]

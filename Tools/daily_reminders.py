@@ -8,7 +8,7 @@ Rules (agreed with the adviser, 12 Nov 2026):
   Yearly / Half Yearly / Quarterly. Monthly and single-premium policies get none.
   General insurance (no premium status) is treated as a yearly renewal.
 - Birthday review invite 30 days before the birthday.
-- Only contacts with "Send reminders" = Yes (i.e. clients with policies in the file, not herself).
+- Only contacts with "Send reminders" = Yes (i.e. clients with policies in the file, not themselves).
 - No policy numbers in messages.
 
 Usage:  py daily_reminders.py [YYYY-MM-DD] [--days N]
@@ -83,7 +83,7 @@ def wa_link(contact, text):
 
 
 def top_not_introduced():
-    """14 Nov 2026 (the adviser): transferred (TOP) clients who haven't had her intro yet must get one in ANY first
+    """14 Nov 2026 (the adviser): transferred (TOP) clients who haven't had their intro yet must get one in ANY first
     message (premium / birthday), config.json me.intro.
     TOP = in TOP-contacts-phone.vcf; introduced = in top-already-messaged.csv or their TOP intro marked done."""
     import re, json, csv
@@ -288,7 +288,7 @@ SECTION_ORDER = ["📌 Follow-ups", "🔁 Nudge (no reply yet)", "💰 Premium d
 def send_telegram(items, dry=False):
     """ONE daily list in HQ's "To message" topic: follow-ups due, premium reminders, birthday reviews,
     today's TOP intros, and anything not yet marked done/skip ("Still open", up to 7 days), numbered,
-    with one WhatsApp button per person (2 per row). She replies "done 1 3" / "skip 2" in General
+    with one WhatsApp button per person (2 per row). They reply "done 1 3" / "skip 2" in General
     (todo_list.py). Splits into extra messages only if there are more than 14 people."""
     import json, time
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

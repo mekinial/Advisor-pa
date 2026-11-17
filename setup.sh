@@ -1,6 +1,6 @@
 #!/bin/bash
-# One-time setup on a Mac. Safe to run again (never overwrites her own files).
-#   ./setup.sh              Python environment, folders, her own config/template files
+# One-time setup on a Mac. Safe to run again (never overwrites their own files).
+#   ./setup.sh              Python environment, folders, their own config/template files
 #   ./setup.sh background   background jobs (launchd): Telegram line at login, watchdog every 5 min,
 #                           Drive sync every 10 min, WhatsApp check 4:07am (if on). Run this AFTER Telegram is set up and tested.
 #   ./setup.sh remove-background   turn those background jobs off again

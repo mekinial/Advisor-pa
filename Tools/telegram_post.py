@@ -6,7 +6,7 @@ Usage:
   <agent>   one of: follow-up, data-analyst, admin-forms, reports, meetings, marketing, main
             HQ has 4 topics: To message, Meetings & reports (reports, meetings),
             Admin (follow-up, data-analyst, admin-forms), Marketing (later). main = General.
-  <message> plain text, keep it short: lead with what needs her action
+  <message> plain text, keep it short: lead with what needs their action
   --file    attach one file (PDF, xlsx, docx, image...) under 50 MB
   --button  add a tap-to-open link button (can be given more than once)
   --ask     "Yes, send the Alex invite|No, not yet"  answer buttons under the message. Tapping one sends that

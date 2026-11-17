@@ -7,7 +7,7 @@
   ./pa hq_status away on|off|status         the adviser is out (on) / back at the desk (off)
 
 Every line goes to Drafts/Status/board.jsonl. While away mode is ON, start/done/needs are ALSO posted to
-HQ on Telegram, in the agent's topic (via telegram_post.py), so she can follow from her phone.
+HQ on Telegram, in the agent's topic (via telegram_post.py), so they can follow from their phone.
 "needs" is always posted when away. Keep <what> to one short line: no NRIC, policy numbers, bank or health details.
 """
 import sys, os, json, time, subprocess

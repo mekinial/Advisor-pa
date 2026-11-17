@@ -1,4 +1,4 @@
-"""the adviser's "To message" to-do list: what's on each day's list, and what she has done or skipped.
+"""the adviser's "To message" to-do list: what's on each day's list, and what they have done or skipped.
 
 State: Drafts/Follow-ups/todo-list.json   Log: Drafts/Follow-ups/contact-log.csv
 Used by daily_reminders.py (builds the daily Telegram list) and week_ahead.py, and from the chat:
@@ -11,8 +11,8 @@ Used by daily_reminders.py (builds the daily Telegram list) and week_ahead.py, a
   ./pa todo_list replied "Tan Ah Beng", Jason   they replied: no nudge (full name = one person; commas split names)
   ./pa todo_list nudges              preview who gets a "no reply yet" nudge today
 
-Nudges (14 Nov 2026, the adviser's ask): anyone she messaged (TOP intro, birthday review, follow-up) who hasn't been marked
-"replied" NUDGE_DAYS after she marked them done gets ONE short nudge on the daily list.
+Nudges (14 Nov 2026, the adviser's ask): anyone they messaged (TOP intro, birthday review, follow-up) who hasn't been marked
+"replied" NUDGE_DAYS after they marked them done gets ONE short nudge on the daily list.
 
 Rules: anything not marked shows again under "Still open" for up to 7 days, then drops off (logged as expired).
 Nothing here sends a message to anyone.
@@ -29,7 +29,7 @@ CARRY_DAYS, SKIP_DAYS, NUDGE_DAYS = 7, 3, 4
 NUDGE_SECTION = "🔁 Nudge (no reply yet)"
 NUDGE_FROM = "2000-01-01"  # only messages marked done from here on
 NUDGE_TYPES = ("👋 New clients (TOP)", "🎂 Birthday review", "📌 Follow-ups")
-NO_NUDGE = C.upper_set(C.LISTS["no_nudge"])  # config.json lists.no_nudge (friends etc. she checks herself)
+NO_NUDGE = C.upper_set(C.LISTS["no_nudge"])  # config.json lists.no_nudge (friends etc. they check themselves)
 
 
 def today():
@@ -169,7 +169,7 @@ def _pipeline_name(it):
 
 def top_to_pipeline(it):
     """14 Nov 2026 (the adviser): a TOP client who replies to the intro joins the pipeline as 'Review due', so they get a
-    stage and a review date like her own clients. Skipped if they're already in the pipeline."""
+    stage and a review date like their own clients. Skipped if they're already in the pipeline."""
     import subprocess
     name = _pipeline_name(it)
     r = subprocess.run(C.PY + [os.path.join(os.path.dirname(__file__), "pipeline_update.py"),

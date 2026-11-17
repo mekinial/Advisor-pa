@@ -3,7 +3,7 @@
 It restarts the line when:
   1. the line isn't running at all;
   2. it has waited 15+ min for an approval nobody answered (Drafts/Status/stuck-alert.json from tg_stuck_alert.py);
-  3. it is hung: her last message started a turn, the turn never finished, and there has been no activity
+  3. it is hung: their last message started a turn, the turn never finished, and there has been no activity
      for 20+ min (read from the activity log Drafts/Office/events.jsonl, session id from tg-line.json).
 After a restart the line reloads the recent chat (tg_line_hooks.py) and a "🔄 Back" line is posted in General.
 Never starts a second copy. Logs to Drafts/Status/watchdog.log.
@@ -82,7 +82,7 @@ def hung_minutes():
 
 def main():
     if os.path.exists(OFF):
-        return  # she stopped the line on purpose
+        return  # they stopped the line on purpose
     if not line_pids():
         log("Telegram line was down - restarted")
         start()

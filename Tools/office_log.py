@@ -109,7 +109,7 @@ def main():
         if tool == "Agent" and ti.get("subagent_type") in AGENTS:   # a hand-off: walk over to that desk
             rec.update(to=ti["subagent_type"], what=f"Briefing {ti['subagent_type']}")
     elif ev == "UserPromptSubmit":
-        rec.update(agent=sess.get(sid, "coordinator"), what="She sent a message")
+        rec.update(agent=sess.get(sid, "coordinator"), what="They sent a message")
     elif ev in ("Stop", "SessionEnd"):
         rec.update(agent=sess.get(sid, "coordinator"), what="Done, waiting")
     elif ev == "SubagentStart":

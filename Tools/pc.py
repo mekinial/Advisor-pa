@@ -2,7 +2,7 @@
 
   ./pa pc screenshot        take a screenshot and post it to HQ General
   ./pa pc status            uptime, battery/power, disk space, Claude processes running, jobs
-  ./pa pc open "<path|url>"  open a file, folder or web page (for when she's back at the desk soon)
+  ./pa pc open "<path|url>"  open a file, folder or web page (for when they're back at the desk soon)
 
 No system or security settings are ever changed here (no sleep/power/lock/shutdown).
 On a Mac the first screenshot needs Screen Recording permission for the Terminal app (macOS asks once).

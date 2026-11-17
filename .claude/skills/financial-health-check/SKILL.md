@@ -1,6 +1,6 @@
 ---
 name: financial-health-check
-description: Analyse one person's finances and portfolio the Planners Inc way (Financial Inventory Check), including legacy and estate distribution (who inherits what, intestacy, CPF/insurance nominations, joint tenancy, equalising unequal assets like property vs cash). Works out their ratios, protection gaps against the Planners Inc protection guidelines, emergency fund, retirement number vs projected income, ST/MT/LT goal funding and legacy gaps, then turns every shortfall into prioritised things to do. Use this whenever the adviser asks to review, analyse or "do a health check / FIC / needs analysis / gap analysis" on a client or lead. Also use it when she asks whether someone is on track for retirement or a goal, what they're missing, how much cover they need, or what to talk about at a review meeting, even if she doesn't say "health check". The proposal-writer and client-report agents use it as their analysis step.
+description: Analyse one person's finances and portfolio the Planners Inc way (Financial Inventory Check), including legacy and estate distribution (who inherits what, intestacy, CPF/insurance nominations, joint tenancy, equalising unequal assets like property vs cash). Works out their ratios, protection gaps against the Planners Inc protection guidelines, emergency fund, retirement number vs projected income, ST/MT/LT goal funding and legacy gaps, then turns every shortfall into prioritised things to do. Use this whenever the adviser asks to review, analyse or "do a health check / FIC / needs analysis / gap analysis" on a client or lead. Also use it when they ask whether someone is on track for retirement or a goal, what they're missing, how much cover they need, or what to talk about at a review meeting, even if they don't say "health check". The proposal-writer and client-report agents use it as their analysis step.
 ---
 
 # Financial health check
@@ -8,8 +8,8 @@ description: Analyse one person's finances and portfolio the Planners Inc way (F
 This skill turns a fact-find into a clear picture of where someone stands, what's missing, and what to do
 next. It uses the Planners Inc framework the adviser already uses with clients: the Financial Inventory Check (FIC),
 the Good / Not so good / Bad analysis, the six accounts, and the four-question retirement number. The point
-is to make her review meetings faster and sharper, not to replace her judgement. Everything is a draft for
-her.
+is to make their review meetings faster and sharper, not to replace their judgement. Everything is a draft for
+them.
 
 ## The workflow
 
@@ -227,7 +227,7 @@ retirement budget, then legacy:
 6. **Legacy.** Will, CPF nomination, insurance nominations, LPA, ACP. These are quick wins with no cost to the client.
 
 For each action, say **why** (which number it fixes) and **what kind of solution** fits. Don't name a
-specific plan unless the adviser asked for one or already noted it. If she did, get product facts from the
+specific plan unless the adviser asked for one or already noted it. If they did, get product facts from the
 GE Product Library (`Tools/library_search.py search "..."`) and quote the document. Never use memory for
 premiums, features or illustrations.
 
@@ -238,7 +238,7 @@ premiums, features or illustrations.
   right amount depends on a full needs analysis.
 - **Protection is measured against the Planners Inc guidelines** in `references/protection-guides.json`, not the
   LIA 9×/4× (the adviser sees that as the bare minimum and wants a comfortable buffer for a catastrophic illness).
-  Don't quote 9×/4× unless she asks. If the file's guides are unset, say so rather than falling back to LIA.
+  Don't quote 9×/4× unless they ask. If the file's guides are unset, say so rather than falling back to LIA.
 - **Projections are illustrative.** Write "illustrative, not guaranteed" next to the 4% drawdown, the
   inflation rate and any return assumption. CPF LIFE amounts must be the client's own estimate from the
   CPF planner.
@@ -254,7 +254,7 @@ are internal. For the client, make a separate visual PDF:
 
 1. Run the calculator with `--json` (step 2). Its `visual` block holds every figure the charts use.
 2. Write `Drafts/Client Reports/<first name>-story.json` from `assets/client-story-template.json`. It holds the words
-   only: plain English, short bullets, in the adviser's voice, with a warm cover note from her. Leave out internal notes and
+   only: plain English, short bullets, in the adviser's voice, with a warm cover note from them. Leave out internal notes and
    anything you're unsure of. Every figure must match the calculator. If a goal or figure is uncertain, say "let's
    confirm" rather than presenting it as fact.
 3. Render:
@@ -316,5 +316,5 @@ What the PDF contains:
 - Tell the adviser the 3 biggest gaps, what's missing from the fact-find, and the file paths.
 - For a PDF, hand over to proposal-writer, or run
   `./pa make_pdf "<draft.md>" --client "<Name>" --kind "Financial Health Check"`.
-- If she's on Telegram, post it to the reports topic:
+- If they're on Telegram, post it to the reports topic:
   `./pa telegram_post reports "<Name>: health check ready, <n> gaps" --file "<pdf or md>"`.

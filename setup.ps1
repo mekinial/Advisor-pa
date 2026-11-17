@@ -1,6 +1,6 @@
-# One-time setup on a Windows PC (the Windows version of setup.sh). Safe to run again: never overwrites her own files.
+# One-time setup on a Windows PC (the Windows version of setup.sh). Safe to run again: never overwrites their own files.
 # Run it through setup.cmd (double-click, or type the line in PowerShell / Command Prompt inside this folder):
-#   setup.cmd                     Python environment, folders, her own config/template files
+#   setup.cmd                     Python environment, folders, their own config/template files
 #   setup.cmd background          background jobs: Telegram line at sign-in (Startup folder shortcut), watchdog every
 #                                 5 min, Drive sync every 10 min, WhatsApp check 4:07am (if on), all in Task Scheduler.
 #                                 Run this AFTER Telegram is set up and tested.
@@ -21,7 +21,7 @@ function Have($cmd) { [bool](Get-Command $cmd -ErrorAction SilentlyContinue) }
 
 # Background jobs are made with schtasks.exe and a task definition file: it works on every Windows 10/11 PC without
 # administrator rights (the ScheduledTasks PowerShell commands are missing or broken on some PCs). Each job runs as
-# her, only while she is signed in, with no window (pythonw), also on battery.
+# them, only while they are signed in, with no window (pythonw), also on battery.
 function X($s) { [Security.SecurityElement]::Escape($s) }
 function Add-Job($name, $script, $argsLine, $trigger, [switch]$Disabled) {
     $arguments = ("-X utf8 `"" + (Join-Path $Dir "Tools\$script") + "`" " + $argsLine).Trim()
@@ -90,7 +90,7 @@ if ($Mode -eq "background") {
         Write-Host "  WhatsApp check is off (config.json whatsapp.enabled)"
     }
     if ($script:failed) { Write-Host "Some jobs could not be made (see FAILED above)."; exit 1 }
-    Write-Host "Done. They run while the PC is on and she is signed in. Turn off: setup.cmd remove-background"
+    Write-Host "Done. They run while the PC is on and they are signed in. Turn off: setup.cmd remove-background"
     exit 0
 }
 if ($Mode -eq "remove-background") {

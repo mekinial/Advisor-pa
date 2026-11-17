@@ -10,8 +10,8 @@
 
 The line is Claude Code with the Telegram channel. Keep only ONE copy: two copies on the same bot fight over
 messages (start checks). It runs unattended, so --permission-mode auto lets the safety checker decide instead of
-waiting for a click, and --add-dir gives it the folder where Telegram photos/files land plus her product/forms
-libraries and her memory folder. ADMIN_TEAM_LINE=telegram tells the hooks that this is the Telegram line.
+waiting for a click, and --add-dir gives it the folder where Telegram photos/files land plus their product/forms
+libraries and their memory folder. ADMIN_TEAM_LINE=telegram tells the hooks that this is the Telegram line.
 
 Mac: hands over to Tools/start_line.sh / stop_line.sh (tmux session "pa-line").
 Windows: runs Claude Code in its own classic console window (conhost), hidden unless --visible. Closing that

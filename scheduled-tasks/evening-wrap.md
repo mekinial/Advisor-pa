@@ -1,7 +1,7 @@
-Post the adviser's evening wrap to her private Telegram group HQ (General). Read only: never contact clients, never change her calendar, never edit Data/. Folder: <PA>.
+Post the adviser's evening wrap to their private Telegram group HQ (General). Read only: never contact clients, never change their calendar, never edit Data/. Folder: <PA>.
 
-1. `cd <PA> && ./pa hq_status show --hours 16`: what the agents finished today and what still waits for her.
-2. `./pa todo_list open`: how many To message people she marked done today and how many are still open.
+1. `cd <PA> && ./pa hq_status show --hours 16`: what the agents finished today and what still waits for them.
+2. `./pa todo_list open`: how many To message people they marked done today and how many are still open.
 3. `./pa run_job list`: any background job still running or failed today.
 4. Tomorrow's first client meeting from Google Calendar (same filter as in Me.md), if any.
 5. Message (max ~8 lines), for example:

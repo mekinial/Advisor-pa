@@ -111,38 +111,17 @@ def replied_names():
 
 
 def pick_for(name, today=None, taken=None, hi=14):
-    """Two different times for this person: (weekday, weekend) where possible, as soon as possible.
-
-    1.4.6 (19 Nov 2026): appointments are aimed within the next week or two. A time offered to someone who
-    hasn't replied or confirmed counts as open again:
-    - Another person's held times only block if that person has REPLIED (an open conversation). Confirmed
-      meetings are in Google Calendar (busy.json) anyway.
-    - Their own hold is reused only if both times are still free AND within the next `hi` days.
-    - Times already given out in this run (`taken`) are avoided where possible, but never at the cost of pushing
-      someone past `hi` days: then the least-offered times are reused.
-    - Only if the next `hi` days are truly full (calendar + rules + replied holds) does it look further ahead.
-    Returns [datetime, datetime] or None."""
+    """Two times for this person: the earliest free weekday + weekend time (2+ days ahead), as soon as possible.
+    1.4.7: offers never block each other; several people can be offered the same time until one confirms
+    (it then goes in the calendar -> busy.json). Only if the next `hi` days are truly full does it look further
+    ahead. Returns [datetime, datetime] or None."""
     today = today or datetime.date.today()
     taken = taken if taken is not None else set()
-    sl = free_slots(today, 2, hi)
-    now = datetime.datetime.combine(today, datetime.time(0))
-    holds = load_holds()
-    replied = replied_names()
-    norm = lambda n: " ".join(str(n).upper().replace(",", "").split())
-    mine = [datetime.datetime.fromisoformat(s) for s in holds.get(name, [])]
-    others = {datetime.datetime.fromisoformat(s) for n, v in holds.items()
-              if n != name and norm(n) in replied for s in v}
-    if len(mine) == 2 and all(s > now and s in sl and s not in others for s in mine):
-        taken.update(mine)
-        return mine
-    open_ = [s for s in sl if s not in others]
-    cand = [s for s in open_ if s not in taken]
-    if len(cand) < 2:  # all given out this run: reuse the least-offered times first (spreads people out)
-        cand = sorted(open_, key=lambda s: (_USE[s], s))
+    cand = free_slots(today, 2, hi)
     far = hi
     while len(cand) < 2 and far < 90:
         far += 7
-        cand = [s for s in free_slots(today, 2, far) if s not in others]
+        cand = free_slots(today, 2, far)
     wk = [s for s in cand if s.weekday() < 5]
     we = [s for s in cand if s.weekday() >= 5]
     if wk and we:
@@ -152,8 +131,6 @@ def pick_for(name, today=None, taken=None, hi=14):
     else:
         return None
     taken.update(two)
-    for s in two:
-        _USE[s] += 1
     return two
 
 

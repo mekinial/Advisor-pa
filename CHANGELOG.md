@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.7 (19 Nov 2026)
+- Appointment times: everyone is offered the earliest free weekday + weekend time. Unconfirmed offers never block
+  each other (the same time can go to several people until one confirms and it lands in the calendar), so dates no
+  longer drift further and further out.
+
 ## 1.4.6 (19 Nov 2026)
 - One message per person: if someone has several things on the daily To message list (premium, birthday,
   follow-up, intro), they get one line and one combined WhatsApp message. If they messaged last, the button just

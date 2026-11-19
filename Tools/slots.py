@@ -97,36 +97,63 @@ def hold(name, slots):
     json.dump(h, open(HOLDS, "w", encoding="utf-8"), indent=1)
 
 
+from collections import Counter
+_USE = Counter()  # how often each time was offered in this run
+
+
+def replied_names():
+    """People who have replied (todo_list 'replied'), upper-case, spaces normalised."""
+    try:
+        st = json.load(open(os.path.join(ROOT, "Drafts", "Follow-ups", "todo-list.json"), encoding="utf-8"))
+    except Exception:
+        return set()
+    return {" ".join(str(it["name"]).upper().replace(",", "").split()) for it in st.get("items", {}).values() if it.get("replied")}
+
+
 def pick_for(name, today=None, taken=None, hi=14):
-    """Two different times for this person that nobody else holds: (weekday, weekend) where possible.
-    Reuses their own hold if both times are still in the future and still free.
-    `taken` = times already given out in this run (updated in place). Returns [datetime, datetime] or None."""
+    """Two different times for this person: (weekday, weekend) where possible, as soon as possible.
+
+    1.4.6 (19 Nov 2026): appointments are aimed within the next week or two. A time offered to someone who
+    hasn't replied or confirmed counts as open again:
+    - Another person's held times only block if that person has REPLIED (an open conversation). Confirmed
+      meetings are in Google Calendar (busy.json) anyway.
+    - Their own hold is reused only if both times are still free AND within the next `hi` days.
+    - Times already given out in this run (`taken`) are avoided where possible, but never at the cost of pushing
+      someone past `hi` days: then the least-offered times are reused.
+    - Only if the next `hi` days are truly full (calendar + rules + replied holds) does it look further ahead.
+    Returns [datetime, datetime] or None."""
     today = today or datetime.date.today()
     taken = taken if taken is not None else set()
     sl = free_slots(today, 2, hi)
     now = datetime.datetime.combine(today, datetime.time(0))
     holds = load_holds()
+    replied = replied_names()
+    norm = lambda n: " ".join(str(n).upper().replace(",", "").split())
     mine = [datetime.datetime.fromisoformat(s) for s in holds.get(name, [])]
-    if len(mine) == 2 and all(s > now and s in sl for s in mine):
+    others = {datetime.datetime.fromisoformat(s) for n, v in holds.items()
+              if n != name and norm(n) in replied for s in v}
+    if len(mine) == 2 and all(s > now and s in sl and s not in others for s in mine):
         taken.update(mine)
         return mine
-    others = {datetime.datetime.fromisoformat(s) for n, v in holds.items() if n != name for s in v}
-    sl = [s for s in sl if s not in others and s not in taken]
-    # 14 Nov 2026 ("if there are no slots then just find the next available free slot"): when the
-    # usual window is full, look further ahead a week at a time (up to ~3 months) instead of giving up.
+    open_ = [s for s in sl if s not in others]
+    cand = [s for s in open_ if s not in taken]
+    if len(cand) < 2:  # all given out this run: reuse the least-offered times first (spreads people out)
+        cand = sorted(open_, key=lambda s: (_USE[s], s))
     far = hi
-    while len(sl) < 2 and far < 90:
+    while len(cand) < 2 and far < 90:
         far += 7
-        sl = [s for s in free_slots(today, 2, far) if s not in others and s not in taken]
-    wk = [s for s in sl if s.weekday() < 5]
-    we = [s for s in sl if s.weekday() >= 5]
+        cand = [s for s in free_slots(today, 2, far) if s not in others]
+    wk = [s for s in cand if s.weekday() < 5]
+    we = [s for s in cand if s.weekday() >= 5]
     if wk and we:
         two = sorted([wk[0], we[0]])
-    elif len(sl) >= 2:
-        two = sl[:2]
+    elif len(cand) >= 2:
+        two = cand[:2]
     else:
         return None
     taken.update(two)
+    for s in two:
+        _USE[s] += 1
     return two
 
 

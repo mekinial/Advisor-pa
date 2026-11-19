@@ -235,7 +235,7 @@ def main():
     n_p = sum(1 for x in items if x[1] == 'Premium due'); n_b = sum(1 for x in items if x[1] == 'Birthday review')
     print(f"{len(items)} reminders ({n_p} premium, {n_b} birthday) {fmt(start)}-{fmt(end)}")
     print(path)
-    if telegram:
+    if telegram and not dry:  # 1.4.6: --telegram --dry used to post for real
         print(send_telegram(items))
     elif dry:
         print(send_telegram(items, dry=True))
@@ -280,6 +280,42 @@ def top_today(base, today):
     pick = [p for p in people if p["full"] in todays] if todays else \
            [p for p in people if p["full"] not in shown][:TOP_PER_DAY]
     return pick, g, shown, f
+
+
+def _msg_text(url):
+    return urllib.parse.unquote(url.split("?text=", 1)[1]) if url and "?text=" in url else ""
+
+
+def combine(items):
+    """1.4.6: one WhatsApp message for several items for the same person. The intro (if any) goes first; the
+    others follow without their own "Hi X," opener. A bare "floating this up" nudge is dropped when there is
+    something real to say. If they messaged last ("Your turn"), no prefilled text: the adviser replies in the chat.
+    Returns (url, detail)."""
+    import re
+    turns = [it for it in items if str(it.get("detail", "")).startswith("Your turn")]
+    if len(turns) > 1:
+        items = [it for it in items if it not in turns[:-1]]
+    texts = [(it, _msg_text(it.get("url"))) for it in items]
+    real = [(it, t) for it, t in texts if t and "just floating this up" not in t]
+    if not real:
+        real = [(it, t) for it, t in texts if t]
+    if turns:
+        real = []
+    # A hand-made follow-up that introduces the adviser beats the standard intro.
+    real.sort(key=lambda x: (0 if x[0]["section"] == "📌 Follow-ups" and "servicing adviser" in x[1]
+                             else 1 if "servicing adviser" in x[1] else 2))
+    parts = []
+    for i, (it, t) in enumerate(real):
+        if i:
+            if "servicing adviser" in t:  # a second intro: the first one already says it
+                continue
+            t = re.sub(r"^Hi [^,!\n]{1,40}[,!]\s*", "", t)
+            t = ("Also, " + (t[0].lower() if not t.startswith(("I ", "I'")) else t[0]) + t[1:]) if t else t
+        parts.append(t.strip())
+    base = next((it["url"].split("?text=")[0] for it in items if it.get("url")), None)
+    url = (base + "?text=" + urllib.parse.quote("\n\n".join(parts))) if base and parts else base
+    detail = " + ".join(dict.fromkeys(x for it in items for x in [it["section"].split(" ", 1)[-1] + (f" ({it['detail']})" if it["detail"] else "")] if x))
+    return url, detail
 
 
 SECTION_ORDER = ["📌 Follow-ups", "🔁 Nudge (no reply yet)", "💰 Premium due", "🎂 Birthday review", "👋 New clients (TOP)", "⏳ Still open"]
@@ -327,6 +363,16 @@ def send_telegram(items, dry=False):
         url = p["wa"] + "?text=" + urllib.parse.quote(p["msg"]) if p["wa"] else None
         td.register(st, "T|" + p["full"], "👋 New clients (TOP)", p["full"], p["first"] or p["full"].title(), what,
                     url, " · ".join(x for x in (p.get("flag", ""), ("⚠️ " + chk) if chk else "") if x), day)
+    # 1.4.6: one first message per person. While a TOP intro is open, their premium / birthday items are covered
+    # by it (the intro already asks to meet and, where due, mentions the premium). If the intro expires or is
+    # dropped without being sent, the reminder comes back.
+    open_top = {k[2:] for k, v in st["items"].items() if k.startswith("T|") and v["status"] == "open"}
+    for k, v in st["items"].items():
+        if k[:2] in ("P|", "B|") and v["status"] == "open" and v["name"] in open_top:
+            v["status"] = "covered by intro"
+        elif v["status"] == "covered by intro" and v["name"] not in open_top and \
+                st["items"].get("T|" + v["name"], {}).get("status") != "done":
+            v["status"] = "open"
     try:
         td.add_nudges(st, day)
     except Exception as e:
@@ -337,6 +383,15 @@ def send_telegram(items, dry=False):
         td.save(st)
         return "Nothing to message today; no Telegram post"
 
+    # 1.4.6: one line + one message per person: group their items, keeping the first one's place.
+    groups, where = [], {}
+    for k in rows:
+        w = td._who(st["items"][k])
+        if w in where:
+            groups[where[w]].append(k)
+        else:
+            where[w] = len(groups); groups.append([k])
+    rows = groups
     thread = topic_id(token, chat, base, "to-message") if not dry else None
     CH, sent, failed, nums = 14, 0, 0, {}
     for start in range(0, len(rows), CH):
@@ -345,8 +400,11 @@ def send_telegram(items, dry=False):
         if len(rows) > CH:
             head += f" · part {start // CH + 1}"
         lines, buttons, section = [head], [], None
-        for n, k in enumerate(part, start + 1):
-            it = st["items"][k]
+        for n, ks in enumerate(part, start + 1):
+            k = ks[0]
+            it = dict(st["items"][k])
+            if len(ks) > 1:
+                it["url"], it["detail"] = combine([st["items"][x] for x in ks])
             sec = "⏳ Still open" if k in old else it["section"]
             if sec == "👋 New clients (TOP)" and left:
                 sec += f" · {left} more to come"
@@ -358,7 +416,7 @@ def send_telegram(items, dry=False):
             lines.append(f"{n}. {html.escape(it['label'])}" + (f" — {html.escape(extra)}" if extra else ""))
             if it["url"]:
                 buttons.append({"text": f"{n}. {it['label']}", "url": it["url"]})
-            nums[str(n)] = k
+            nums[str(n)] = ks if len(ks) > 1 else k
         lines += ["", "Tap a name: WhatsApp opens with the message ready.",
                   "Then reply in General: <code>done 1 3</code> · <code>skip 2</code> · <code>replied Jason</code> (they replied: no nudge)"]
         msg = dict(chat_id=chat, text="\n".join(lines), parse_mode="HTML", disable_web_page_preview=True,

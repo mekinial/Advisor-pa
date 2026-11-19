@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.4.6 (19 Nov 2026)
+- One message per person: if someone has several things on the daily To message list (premium, birthday,
+  follow-up, intro), they get one line and one combined WhatsApp message. If they messaged last, the button just
+  opens the chat (no prefilled text). `done 3` marks all of that person's items.
+- First messages: while a transferred client's intro is unsent, their premium / birthday reminders are folded into
+  it, so no second "first message" without an intro. If the intro expires unsent, the reminders come back.
+- Appointment times: offered within the next 1–2 weeks, as soon as possible. A time offered to someone who never
+  replied counts as free again (it only stays held once they reply). Before, unanswered offers kept times blocked
+  and later people were pushed weeks out.
+- New: `./pa todo_list away "<name>" --until <date>` for clients who are overseas: off the list till then.
+- Fix: `daily_reminders --telegram --dry` no longer posts for real.
+
 ## 1.4.5 (17 Nov 2026)
 - Answer buttons no longer keep popping up after a tap: `telegram_post --clear` removes them, and the PA posts
   its one-line result with it after every answer.

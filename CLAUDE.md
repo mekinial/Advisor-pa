@@ -73,6 +73,10 @@ If a request doesn't fit any agent, handle it yourself or say it needs a new age
 - All Telegram tools post only to HQ and refuse to send if anyone else is ever added to the group.
 - **"done 1 3" / "skip 2" / "undo 3"** (numbers or names from today's To message list): `./pa todo_list done 1 3`
   (or skip [--days N] / undo) and reply with its one line.
+- **"X is overseas till next week" / "away till <date>"**: `./pa todo_list away "<name>" --until YYYY-MM-DD` (everything
+  for them is off the list till then, then comes back by itself). Each person gets ONE line and ONE combined message
+  on the daily list; appointment times are offered within the next 1–2 weeks, and a time offered with no reply
+  counts as free again.
   **"X replied"** → `./pa todo_list replied X`. Anyone marked done but not replied after 4 days gets ONE
   "🔁 Nudge" line on the daily list. A TOP client marked replied joins the pipeline as "Review due".
   "remind me to <x> <name> on <day>" → `./pa todo_list add "<name>" "<x>" --date YYYY-MM-DD`.

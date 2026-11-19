@@ -9,6 +9,8 @@ Used by daily_reminders.py (builds the daily Telegram list) and week_ahead.py, a
   ./pa todo_list add "<name>" "<what>" [--date YYYY-MM-DD]   a follow-up that shows on that day
   ./pa todo_list open                list everything still open
   ./pa todo_list replied "Tan Ah Beng", Jason   they replied: no nudge (full name = one person; commas split names)
+  ./pa todo_list away "Tan Ah Beng" --until 2026-11-23   overseas/busy: everything for them is hidden
+                                     until that date, then shows again
   ./pa todo_list nudges              preview who gets a "no reply yet" nudge today
 
 Nudges (14 Nov 2026, the adviser's ask): anyone they messaged (TOP intro, birthday review, follow-up) who hasn't been marked
@@ -121,8 +123,8 @@ def resolve_refs(st, args):
         toks = c.split()
         if all(t.isdigit() for t in toks):
             for t in toks:
-                k = nums.get(t)
-                (people.append(_who(st["items"][k])) if k else bad.append(f"'{t}' is not on the latest list"))
+                k = _keys(nums.get(t))
+                (people.append(_who(st["items"][k[0]])) if k else bad.append(f"'{t}' is not on the latest list"))
             continue
         hit = _people_matching(st, c)
         if len(hit) == 1:
@@ -184,9 +186,13 @@ def due_today(st, day=None):
     """(new_today, still_open) item keys for the day's list. Expires items older than CARRY_DAYS."""
     d = day or today()
     new, old = [], []
+    away = st.get("away", {})  # {"TAN AH BENG": "2026-11-23"}: hidden until then (overseas etc.)
     for k, it in st["items"].items():
         if it["status"] != "open":
             continue
+        back = away.get(_who(it))
+        if back and back > str(d) and it["show_from"] < back:
+            it["show_from"] = back
         sf = datetime.date.fromisoformat(it["show_from"])
         if sf > d:
             continue
@@ -208,6 +214,11 @@ def latest(st):
     return day, st["lists"][day]
 
 
+def _keys(v):
+    """A list number maps to one item key, or (1.4.6: one combined message per person) a list of keys."""
+    return [] if not v else (list(v) if isinstance(v, list) else [v])
+
+
 def pick(st, nums, refs):
     """Resolve '1', '3', 'Jason' against the latest list. Returns keys, problems."""
     keys, bad = [], []
@@ -216,12 +227,13 @@ def pick(st, nums, refs):
         if not r:
             continue
         if r.isdigit():
-            k = nums.get(r)
-            (keys.append(k) if k else bad.append(f"no #{r} on the list"))
+            k = _keys(nums.get(r))
+            (keys.extend(k) if k else bad.append(f"no #{r} on the list"))
         else:
-            hits = [k for k in nums.values() if r.lower() in (st["items"][k]["label"] + " " + st["items"][k]["name"]).lower()]
+            hits = [v for v in nums.values()
+                    if any(r.lower() in (st["items"][k]["label"] + " " + st["items"][k]["name"]).lower() for k in _keys(v))]
             if len(hits) == 1:
-                keys.append(hits[0])
+                keys.extend(_keys(hits[0]))
             else:
                 bad.append(f"'{r}' matches {len(hits)} people")
     return keys, bad
@@ -265,11 +277,12 @@ def main():
             else:
                 it["status"] = "open"; it["show_from"] = min(it["show_from"], str(today()))
             log(today(), it, cmd if cmd != "skip" else f"skip {days}d")
-            names.append(it["label"])
+            if it["label"] not in names:
+                names.append(it["label"])
         save(st)
         verb = {"done": "Done", "skip": f"Skipped, back on {(today() + datetime.timedelta(days)):%a %d %b}", "undo": "Back to open"}[cmd]
         out = f"{verb}: {', '.join(names)}" if names else "Nothing changed"
-        left = sum(1 for k in nums.values() if st["items"][k]["status"] == "open"
+        left = sum(1 for v in nums.values() for k in _keys(v)[:1] if st["items"][k]["status"] == "open"
                    and datetime.date.fromisoformat(st["items"][k]["show_from"]) <= today())
         print(out + (f". Still open on the {day[8:]}/{day[5:7]} list: {left}" if names else "") +
               (f" (couldn't match: {'; '.join(bad)})" if bad else ""))
@@ -298,6 +311,17 @@ def main():
         save(st)
         print((f"Replied: {', '.join(names)} (no nudge for them)" if names else "Nothing changed")
               + (f" (couldn't match: {'; '.join(bad)})" if bad else ""))
+    elif cmd == "away":
+        if "--until" not in rest:
+            sys.exit('usage: away "<name>"[, "<name>"] --until YYYY-MM-DD')
+        i = rest.index("--until"); back = datetime.date.fromisoformat(rest[i + 1]); del rest[i:i + 2]
+        people, bad = resolve_refs(st, rest)
+        for w in people:
+            st.setdefault("away", {})[w] = str(back)
+        due_today(st)
+        save(st)
+        print((f"Away till {back:%a %d %b}: {', '.join(w.title() for w in people)} (off the list till then)" if people
+               else "Nothing changed") + (f" (couldn't match: {'; '.join(bad)})" if bad else ""))
     elif cmd == "nudges":
         n = add_nudges(st, dry=True)
         print(f"Nudges today: {', '.join(n)}" if n else "No nudges due today")

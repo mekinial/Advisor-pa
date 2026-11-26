@@ -2,7 +2,7 @@
 
   ./pa week_ahead [--meetings-file PATH] [--telegram] [--date YYYY-MM-DD]
 
---meetings-file: plain text, one client meeting per line (e.g. "Tue 17 Nov 7:30pm · <you> x Nelson"), written by
+--meetings-file: plain text, one client meeting per line (e.g. "Tue 17 Nov 7:30pm · <you> x Ben"), written by
 the scheduled task from Google Calendar. Without --telegram it only prints. Sends only to HQ.
 """
 import sys, os, csv, html, datetime

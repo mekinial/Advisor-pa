@@ -3,7 +3,8 @@
 For everyone they have messaged (TOP intros, birthday reviews, follow-ups marked done), it works out WHO SENT THE
 LAST MESSAGE in WhatsApp and sorts them:
   your turn  = they sent last (or there's an unread message)   -> added to their To message list
-  waiting    = the adviser sent last                                   -> listed oldest first, for a nudge
+  waiting    = the adviser sent last      -> listed oldest first, for a nudge; their "Your turn" / nudge lines
+                                          from on or before that date come off the list (todo_list answered)
   unsure     = couldn't tell, or not found in WhatsApp
 Read only, always: it never opens a chat, never types, never clicks, never sends anything, and never keeps message
 text. The report holds names and dates only.
@@ -383,6 +384,15 @@ def run(dry=False, post=True):
                              f"Your turn: they messaged last ({fmt(c['date']) if c['date'] else '?'}), reply / move to appointment"],
                        capture_output=True)
         added.append(p)
+    # 1.5.0: the adviser already replied (sent the last message) -> their "Your turn" / nudge lines come off the list
+    answered = []
+    for p, c in waiting:
+        if not c["date"]:
+            continue
+        r = subprocess.run(PY + [os.path.join(TOOLS, "todo_list.py"), "answered", p, "--since", c["date"].isoformat()],
+                           capture_output=True, text=True, encoding="utf-8")
+        if (r.stdout or "").startswith("Already answered"):
+            answered.append(p)
     # CSV
     rows = {r["Name"]: dict(r) for r in csv_rows}
     for p, c in res.items():
@@ -424,6 +434,8 @@ def run(dry=False, post=True):
         L += [f"- {len(SKIP)} Telegram-only contact(s): not checked"]
     if added:
         L += ["", f"Added to today's To message list: {', '.join(title(p) for p in added)}"]
+    if answered:
+        L += ["", f"Taken off the To message list (you already replied): {', '.join(title(p) for p in answered)}"]
     path = os.path.join(FU, f"whatsapp-scan-{today.isoformat()}.md")
     open(path, "w", encoding="utf-8").write("\n".join(L) + "\n")
     summary = f"WhatsApp reply check: {len(yours)} your turn, {len(waiting)} waiting"

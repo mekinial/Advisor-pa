@@ -101,7 +101,7 @@ advisers, nothing goes to GitHub, and updates never touch them.
 | Me.md | Who they are: name, what clients call them, how they title meetings, events to ignore, where they're based | Claude asks during setup. To change it later, just tell the PA |
 | Preferences.md | Their likes and dislikes for drafts | **Learns from corrections**: each time they correct something ("too formal", "no emojis for older clients"), the PA adds a dated rule and replies "📌 Noted for next time" |
 | Voice.md | How they write, so drafts sound like them | **Learns from their Telegram messages** (writing style only, kept on their computer). Once a day the PA adds a line if it notices something new |
-| config.json | Settings: meeting times to offer, their area, friends who get a plain birthday wish, Drive sync, WhatsApp check | Claude fills it in during setup. Change it any time by asking the PA |
+| config.json | Settings: meeting times to offer, their area, friends who get a plain birthday wish, Drive sync, WhatsApp check, calendar travel buffers, claim chase days | Claude fills it in during setup. Change it any time by asking the PA |
 | Data/ | Their client workbook and pipeline | Filled from their own client list in Part 4. Meeting notes they send update the pipeline |
 | Drafts/ | Everything the agents write | Drafts only: nothing is ever sent from here |
 | Forms/Blank/ | Blank forms to pre-fill | They put in forms they downloaded themselves |
@@ -137,6 +137,28 @@ day's list). It is read only: it never opens a chat, types or sends, and it neve
 - macOS asks for one permission: System Settings → Privacy & Security → **Full Disk Access** → add the PA's Python
   (`./pa whatsapp_scan where` prints the exact path and steps). They switch it on themselves.
 - Test: `./pa whatsapp_scan test` should say "OK: read N chats". Claude then turns it on during setup.
+
+## Optional: reading client chats at night (new in 1.5.0)
+
+A separate scheduled task (4:30am) can also open recent and quiet client/prospect chats in **WhatsApp Web in
+Chrome**, read one screen, keep a short private note per person, and put a ready reply or bump draft on the
+morning To message list (it decides from the conversation, not from who spoke last). It also takes off reminders
+they already sent, closes a premium reminder when a payment shows in the chat, flags claim/servicing requests,
+and adds or updates calendar events for confirmed meetings. It never sends anything; chats that need a reply are
+marked unread again.
+- **Opening a chat shows blue ticks to the client.** It is off unless they turn it on (config.json
+  whatsapp.read_chats).
+- Needs Claude in Chrome and WhatsApp Web linked once in Chrome (scan the QR code with the phone).
+
+## Claims & servicing tracker and calendar (new in 1.5.0)
+
+- Say "Alex wants to claim for his hospital stay" or "submitted Cal's term plan": the PA builds a checklist from the
+  insurer's own form, drafts ONE "what I need from you" message, and a **📎 Claims & servicing** topic shows each
+  morning who to chase (client every 3 days, clinic 5, insurer 7 after submitting). "got C1 bill", "chased C1",
+  "close C1" keep it up to date.
+- If they say yes during setup, confirmed client meetings go straight onto their own Google Calendar (no invite to the
+  client) with travel time before and after (longer for areas far from home), or a 15-min "find a quiet spot" block
+  before a Zoom call. The PA only ever changes events it made itself.
 
 ## macOS pop-ups to expect (they answer them themselves)
 

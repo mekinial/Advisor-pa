@@ -3,7 +3,7 @@
   ./pa pipeline_update "<client>" [--stage "<Stage>"] [--next "<next action>"] [--next-date YYYY-MM-DD]
                                          [--note "<one short line>"] [--met YYYY-MM-DD] [--new] [--source "<src>"] [--dry]
 
-- <client>: any part of the name ("Nelson", "Woo Kah Lok"). Must match exactly ONE row, otherwise nothing is
+- <client>: any part of the name ("Alex", "Woo Kah Lok"). Must match exactly ONE row, otherwise nothing is
   changed and the candidates are listed. --new adds a row instead (Stage defaults to "Lead - revive"... use --stage).
 - --met sets Last Contact (default today when --note is given). --note is appended to Key Notes as "12 Nov: ...".
 - Keeps a daily backup in Drafts/Pipeline backups/ and logs every change in Drafts/Meetings/pipeline-changes.md.

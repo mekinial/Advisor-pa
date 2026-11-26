@@ -12,12 +12,14 @@ specialist agents, running in Claude Code on the adviser's own **Mac or Windows 
 ## What's in here (shared, same for everyone)
 - CLAUDE.md: how the PA and agents work, ground rules (draft only, never contact anyone, never connect to GE systems).
 - .claude/agents/: follow-up, admin-forms, data-analyst, meeting-prep, client-report, proposal-writer,
-  investment-writer, drive-organizer. .claude/skills/financial-health-check (optional).
+  investment-writer, drive-organizer. .claude/skills/: financial-health-check (optional) and
+  add-meeting-to-calendar (confirmed meetings + travel buffers on their own calendar).
 - setup.sh (Mac) / setup.cmd + setup.ps1 (Windows): first-time setup and background jobs.
 - Tools/: Telegram (hq.py, telegram_post.py), daily To message list (daily_reminders.py, todo_list.py,
   top_intros.py, slots.py), week ahead, status board, pipeline updates, background jobs, voice notes, PDFs,
-  product-library search, Drive sync, the optional WhatsApp reply check, the Telegram line (line.py; Mac also
-  start_line.sh / stop_line.sh) and watchdog.
+  product-library search, Drive sync, the optional WhatsApp reply check (whatsapp_scan.py) and per-person
+  WhatsApp notes (wa_notes.py), the claims / servicing / new-case tracker (cases.py), the Telegram line (line.py;
+  Mac also start_line.sh / stop_line.sh) and watchdog.
 - scheduled-tasks/: prompts for the Claude desktop app's scheduled tasks.
 - templates/: blank client workbook, pipeline, TOP list, Me/Preferences/Voice starters.
 

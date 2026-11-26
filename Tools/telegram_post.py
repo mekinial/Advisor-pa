@@ -3,9 +3,10 @@
 Usage:
   ./pa telegram_post "<agent>" "<message>" [--file PATH] [--button "Label|https://..."]
 
-  <agent>   one of: follow-up, data-analyst, admin-forms, reports, meetings, marketing, main
-            HQ has 4 topics: To message, Meetings & reports (reports, meetings),
-            Admin (follow-up, data-analyst, admin-forms), Marketing (later). main = General.
+  <agent>   one of: follow-up, data-analyst, admin-forms, reports, meetings, marketing, cases, main
+            HQ has 5 topics: To message, Meetings & reports (reports, meetings),
+            Admin (follow-up, data-analyst, admin-forms), Marketing (later),
+            Claims & servicing (cases). main = General.
   <message> plain text, keep it short: lead with what needs their action
   --file    attach one file (PDF, xlsx, docx, image...) under 50 MB
   --button  add a tap-to-open link button (can be given more than once)
@@ -23,7 +24,7 @@ import sys, os, json
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import hq  # HQ target + safety check (only the adviser and the bot in the group) + API calls
 
-TOPICS = {  # agent name -> HQ topic (4 topics + General, agreed 12 Nov 2026; names in hq.HQ_TOPICS)
+TOPICS = {  # agent name -> HQ topic (5 topics + General; names in hq.HQ_TOPICS)
     "main": None,                 # General = the main chat
     "to-message": "to-message",   # people to WhatsApp
     "follow-up": "admin",
@@ -34,6 +35,7 @@ TOPICS = {  # agent name -> HQ topic (4 topics + General, agreed 12 Nov 2026; na
     "meetings": "work",
     "work": "work",
     "marketing": "marketing",
+    "cases": "cases",             # 1.5.0: Claims & servicing (cases.py)
 }
 TIMEOUT = 60  # uploads can be slow
 

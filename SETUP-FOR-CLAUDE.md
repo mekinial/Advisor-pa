@@ -107,6 +107,25 @@ Show them the finished Me.md and the "me", "top", "schedule" parts of config.jso
 - If the test says the database layout is different or it isn't found, tell them the check needs adjusting for their
   WhatsApp version, leave it off, and add it to your list for the end (don't guess at other ways to read WhatsApp).
 - When the test passes, set config.json whatsapp.enabled = true. Step 7 then schedules it for 4:07am.
+- **Reading chats (1.5.0, optional, ask separately):** the nightly scheduled task (scheduled-tasks/nightly-whatsapp-check.md,
+  4:30am) can also open recent and quiet client/prospect chats in WhatsApp Web, read one screen, keep a short note per
+  person and put a ready reply/bump draft on the To message list. Tell them plainly: opening a chat shows blue ticks
+  to the client; nothing is ever sent; REPLY chats are marked unread again. If they want it: Claude in Chrome connected,
+  WhatsApp Web linked once in Chrome (they scan the QR code with their phone), then set config.json
+  whatsapp.read_chats = true and add the task (step 6). Leave caps / quiet_days at the defaults unless they ask.
+
+## 6c. Calendar (1.5.0, ask them)
+- Ask: "When a client confirms a date and time, shall I put it straight on your Google Calendar (no invite to the
+  client), with travel time before and after?" Yes → config.json calendar.auto_add_confirmed = true. No → the PA
+  offers each event in one line first.
+- Fill calendar.home_area (where they usually start from) and calendar.far_areas (areas that need the longer
+  far_travel_minutes buffer), and change the lengths only if they want (intro 30 min, review 2 h, travel 30/45 min,
+  15-min quiet-spot block before a Zoom call). Times they never take meetings go in schedule.blocks (and Me.md).
+
+## 6d. Claims & servicing tracker
+- Nothing to set up: tell them in one line they can say "Alex wants to claim for his hospital stay" and the PA builds a
+  checklist from the insurer's form, drafts one "what I need from you" message, and a 📎 Claims & servicing topic shows
+  who to chase each morning. Chase rhythm: config.json cases.chase_days.
 
 ## 7. Background jobs
 - **Mac:** `./setup.sh background` · **Windows:** `./setup.cmd background` (no administrator rights needed).

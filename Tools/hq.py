@@ -21,6 +21,7 @@ HQ_TOPICS = {  # HQ layout (agreed 12 Nov 2026): General + these. Ids kept in hq
     "work": "📅 Meetings & reports",     # briefs, agendas, PDFs
     "admin": "🗂 Admin",                 # numbers, forms, follow-up drafts
     "marketing": "📣 Marketing",         # only created once marketing posts something
+    "cases": "📎 Claims & servicing",    # 1.5.0: claims / servicing / pending new cases board (cases.py)
 }
 
 

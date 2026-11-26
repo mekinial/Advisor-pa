@@ -26,7 +26,12 @@ DEFAULTS = {
                                 "thu": ["12:00", "19:30"], "fri": ["12:00"], "sat": ["11:00", "17:00"], "sun": ["14:00", "16:00"]},
                  "blocks": {}, "calendar_skip_words": []},
     "drive_sync": {},
-    "whatsapp": {"enabled": False, "lookback_days": 180, "db": ""},
+    "whatsapp": {"enabled": False, "lookback_days": 180, "db": "", "read_chats": False,
+                 "caps": {"recent": 25, "quiet": 5, "untracked": 10}, "quiet_days": 60},
+    "calendar": {"auto_add_confirmed": False, "intro_minutes": 30, "review_minutes": 120, "default_minutes": 60,
+                 "call_minutes": 30, "home_area": "", "far_areas": [], "travel_minutes": 30, "far_travel_minutes": 45,
+                 "video_prep_minutes": 15},
+    "cases": {"chase_days": {"client": 3, "clinic": 5, "insurer": 7}},
 }
 
 

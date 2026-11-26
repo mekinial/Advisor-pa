@@ -7,7 +7,7 @@ Reads the "estate" block of a client fact-find (see ../assets/legacy-template.js
      CPF nomination, insurance nomination, or how property is held (joint tenancy = survivorship).
   2. What each heir receives today, if nothing changes (no will -> Intestate Succession Act 1967 split).
   3. What each heir receives under the client's wish (equal or chosen shares), including specific gifts
-     (e.g. "the flat to Louis") of unequal value.
+     (e.g. "the flat to Ben") of unequal value.
   4. Equalisation: how the rest of the estate should be split, and how much extra (e.g. insurance nominated to
      the others) is needed when one heir's specific gift is bigger than their fair share.
   5. Liquidity: what has to be paid before heirs get anything (debts, funeral, the HDB CPF refund) and what is

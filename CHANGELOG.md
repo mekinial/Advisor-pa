@@ -1,5 +1,34 @@
 # Changelog
 
+## 1.5.0 (26 Nov 2026)
+- **Claims, servicing and pending new cases tracker** (`./pa cases`). One checklist per case ("client: signed claim
+  form", "clinic: medical report", "me: fill in the form", "insurer: …"), built from the insurer's own form. `cases ask`
+  drafts ONE WhatsApp message listing everything the client must send. A new HQ topic **📎 Claims & servicing** gets one
+  board each morning only when a case needs a chase (client every 3 days, clinic 5, insurer 7 after submitting;
+  config.json cases.chase_days), plus every Monday. Updates in plain words: "got C1 bill", "chased C1", "submitted C1",
+  "close C1 paid". Never names a medical condition, never talks to any insurer system.
+- **Nightly WhatsApp check can read chats** (optional, off by default: config.json whatsapp.read_chats). New scheduled
+  task scheduled-tasks/nightly-whatsapp-check.md (4:30am) opens recent and quiet client/prospect chats in WhatsApp Web,
+  reads one screen, keeps a short private note per person (new `./pa wa_notes`), and decides from the conversation
+  (not who spoke last): REPLY / BUMP / NONE, with a draft in the adviser's voice on the To message list. It also
+  checks clients with no WhatsApp record yet, closes first messages for people who already have a chat, takes off
+  reminders already sent, closes premium reminders when a payment shows, flags claims/servicing requests, and adds or
+  updates calendar events. REPLY chats are marked unread again. Opening a chat shows blue ticks; nothing is ever sent.
+- **To message list:** `todo_list add --draft "<message>"` (a context draft; a "Your turn:" / "Bump:" draft replaces
+  the generic nudge and older Your-turn line, so one line, one message), `todo_list paid "<name>"` (closes the soonest
+  premium reminder) and `todo_list answered "<name>" [--since <date>]` (the adviser already replied: Your-turn / nudge
+  lines come off). The combined message prefers the context draft. Offered times in a message still waiting to be
+  sent (e.g. a carried-over intro) are swapped for fresh free times if they are today or already past.
+- **WhatsApp reply check script:** people the adviser already answered (they sent the last message) have their
+  "Your turn" / nudge lines taken off the list automatically.
+- **New skill add-meeting-to-calendar:** confirmed client meetings go on the adviser's own Google Calendar (no guests,
+  no invite): intro 30 min vs review 2 h, 🚗 travel buffers before and after in-person meetings (30 min, 45 for
+  far areas), one 🎧 15-min "find a quiet spot" block before a Zoom call, none for phone calls. Events the PA made are
+  updated when details change (place agreed, time moved); the adviser's own events are never touched. Automatic only
+  if config.json calendar.auto_add_confirmed is true, otherwise offered first. New config.json `calendar` settings
+  (home_area, far_areas, lengths, buffers).
+- CLAUDE.md, setup guides (Mac, Windows, for Claude), README and config.example.json updated for all of the above.
+
 ## 1.4.7 (19 Nov 2026)
 - Appointment times: everyone is offered the earliest free weekday + weekend time. Unconfirmed offers never block
   each other (the same time can go to several people until one confirms and it lands in the calendar), so dates no

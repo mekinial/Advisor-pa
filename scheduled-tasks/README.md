@@ -14,4 +14,5 @@ Claude app open for them to run.
 | Nightly meeting briefs | 9:07pm daily | nightly-meeting-briefs.md |
 | Evening wrap | 9:43pm daily | evening-wrap.md |
 | Week ahead | Sunday 8:01pm | sunday-week-ahead.md |
+| Nightly WhatsApp check (optional: whatsapp.enabled; opens chats only if whatsapp.read_chats) | 4:30am daily | nightly-whatsapp-check.md |
 | Auto-resume after usage limit (optional) | every 30 min | auto-resume.md |

@@ -40,9 +40,29 @@
     }
   },
   "whatsapp": {
-    "_help": "Optional nightly WhatsApp reply check (read only: who sent the last message, never message text). Mac: needs Full Disk Access once (./pa whatsapp_scan where). Windows: needs WhatsApp desktop open and pip install uiautomation.",
+    "_help": "Optional nightly WhatsApp reply check (read only: who sent the last message, never message text). Mac: needs Full Disk Access once (./pa whatsapp_scan where). Windows: needs WhatsApp desktop open and pip install uiautomation. read_chats (1.5.0, off by default): the nightly task also opens client/prospect chats in WhatsApp Web (Chrome), reads one screen, keeps a short note per person and writes a reply/bump draft. Opening a chat shows blue ticks to the client; only turn it on if you accept that. caps: max chats per night (recent, gone quiet, untracked clients). quiet_days: a client chat this quiet gets a check-in draft.",
     "enabled": false,
-    "lookback_days": 180
+    "lookback_days": 180,
+    "read_chats": false,
+    "caps": {"recent": 25, "quiet": 5, "untracked": 10},
+    "quiet_days": 60
+  },
+  "calendar": {
+    "_help": "1.5.0. auto_add_confirmed: once a client meeting has a confirmed date AND time, the PA puts it on YOUR Google Calendar (no guests, no invite) without asking (add-meeting-to-calendar skill). Lengths in minutes: intro = first get-to-know meet-up, review = a full review. Travel buffers for in-person meetings: travel_minutes before and after, far_travel_minutes if the place is in one of far_areas (areas far from home_area). video_prep_minutes: one 'find a quiet spot' block before a Zoom/video call. Phone calls get no buffer.",
+    "auto_add_confirmed": false,
+    "intro_minutes": 30,
+    "review_minutes": 120,
+    "default_minutes": 60,
+    "call_minutes": 30,
+    "home_area": "",
+    "far_areas": [],
+    "travel_minutes": 30,
+    "far_travel_minutes": 45,
+    "video_prep_minutes": 15
+  },
+  "cases": {
+    "_help": "1.5.0 claims / servicing / new-case tracker (./pa cases). chase_days: how many days before the board reminds you to chase the client, the clinic/hospital, or the insurer (after you submitted).",
+    "chase_days": {"client": 3, "clinic": 5, "insurer": 7}
   },
   "drive_sync": {
     "_help": "Optional. Local file -> folder inside 'My Drive' (Google Drive for desktop), copied when it changes. Example: \"Data/Client Policies.xlsx\": \"Clients\""

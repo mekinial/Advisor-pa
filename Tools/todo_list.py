@@ -6,11 +6,16 @@ Used by daily_reminders.py (builds the daily Telegram list) and week_ahead.py, a
   ./pa todo_list done 1 3 5          mark numbers on the latest list as done (names work too: done Jason)
   ./pa todo_list skip 2 [--days 3]   hide for N days (default 3), then it comes back
   ./pa todo_list undo 3              back to open
-  ./pa todo_list add "<name>" "<what>" [--date YYYY-MM-DD]   a follow-up that shows on that day
+  ./pa todo_list add "<name>" "<what>" [--date YYYY-MM-DD] [--draft "<message>"]   a follow-up that shows on that day
+                                     (--draft: WhatsApp text written from the chat context; a "Bump:" / "Your turn:"
+                                     draft replaces the generic nudge and older "Your turn" lines for that person)
   ./pa todo_list open                list everything still open
   ./pa todo_list replied "Tan Ah Beng", Jason   they replied: no nudge (full name = one person; commas split names)
   ./pa todo_list away "Tan Ah Beng" --until 2026-11-23   overseas/busy: everything for them is hidden
                                      until that date, then shows again
+  ./pa todo_list paid "<name>"       payment confirmed: closes their soonest premium reminder
+  ./pa todo_list answered "<name>" [--since YYYY-MM-DD]   the adviser already replied: closes their "Your turn" /
+                                     nudge lines added on or before that date (default today)
   ./pa todo_list nudges              preview who gets a "no reply yet" nudge today
 
 Nudges (14 Nov 2026, the adviser's ask): anyone they messaged (TOP intro, birthday review, follow-up) who hasn't been marked
@@ -288,8 +293,11 @@ def main():
               (f" (couldn't match: {'; '.join(bad)})" if bad else ""))
     elif cmd == "add":
         if len(rest) < 2:
-            sys.exit('usage: add "<name>" "<what>" [--date YYYY-MM-DD]')
+            sys.exit('usage: add "<name>" "<what>" [--date YYYY-MM-DD] [--draft "<message>"]')
         d = today()
+        draft = None  # 1.5.0: reply/bump written from the chat context (nightly WhatsApp check)
+        if "--draft" in rest:
+            i = rest.index("--draft"); draft = rest[i + 1]; del rest[i:i + 2]
         if "--date" in rest:
             i = rest.index("--date"); d = datetime.date.fromisoformat(rest[i + 1]); del rest[i:i + 2]
         name, what = rest[0], rest[1]
@@ -300,16 +308,62 @@ def main():
             url = TELEGRAM_ONLY.get(str((c or {}).get("Policyholder", "")).upper(), url)
         except Exception:
             pass
+        if draft and url and "wa.me" in url:
+            url = url.split("?text=")[0] + "?text=" + urllib.parse.quote(draft)
         label = (c.get("Call them") if c and c.get("Call them") else name)
         key = "F|" + name.lower() + "|" + hashlib.md5(what.encode()).hexdigest()[:6]
         it = register(st, key, "📌 Follow-ups", (c or {}).get("Policyholder") or name, label, what, url, "", d)
         it["show_from"] = str(d); it["status"] = "open"
+        if draft:
+            it["url"] = url; it["draft"] = draft; it["context"] = True
+            if what.startswith(("Bump", "Your turn")):  # one line per person: older Your turn / generic nudge lines go
+                w = _who(it)
+                for k2, o in st["items"].items():
+                    if (k2 != key and _who(o) == w and o["status"] == "open"
+                            and (k2.startswith("N|") or str(o.get("detail", "")).startswith(("Your turn", "Bump")))):
+                        o["status"] = "done"; o["done"] = str(today()); log(today(), o, "replaced by context draft")
         save(st)
         print(f"Added: {label}, {what}, on the {d:%a %d %b} list" + ("" if url else " (no WhatsApp number on file)"))
     elif cmd == "replied":
         names, bad = mark_replied(st, rest)
         save(st)
         print((f"Replied: {', '.join(names)} (no nudge for them)" if names else "Nothing changed")
+              + (f" (couldn't match: {'; '.join(bad)})" if bad else ""))
+    elif cmd == "paid":
+        # 1.5.0: a payment confirmed in WhatsApp closes that person's premium reminder (soonest due, within 45 days).
+        people, bad = resolve_refs(st, rest)
+        names = []
+        for w in people:
+            ps = sorted([k for k, it in st["items"].items() if k.startswith("P|") and _who(it) == w
+                         and it["status"] == "open" and k.split("|")[2] <= str(today() + datetime.timedelta(45))],
+                        key=lambda k: k.split("|")[2])
+            if not ps:
+                bad.append(f"{w.title()}: no open premium reminder"); continue
+            it = st["items"][ps[0]]
+            it["status"] = "done"; it["done"] = str(today()); it["replied"] = str(today())
+            log(today(), it, "paid (seen in WhatsApp)")
+            names.append(f"{it['label']} ({it['detail'].split(' · ')[0]})")
+        save(st)
+        print((f"Paid, premium reminder closed: {', '.join(names)}" if names else "Nothing changed")
+              + (f" (not closed: {'; '.join(bad)})" if bad else ""))
+    elif cmd == "answered":
+        # 1.5.0: the adviser already replied in WhatsApp (sent the last message on --since), so the "Your turn"
+        # and nudge lines for that person come off the list. Other reminders (premium etc.) stay.
+        since = str(today())
+        if "--since" in rest:
+            i = rest.index("--since"); since = rest[i + 1]; del rest[i:i + 2]
+        people, bad = resolve_refs(st, rest)
+        names = []
+        for w in people:
+            for k, it in st["items"].items():
+                if (_who(it) == w and it["status"] == "open" and it["show_from"] <= since
+                        and (k.startswith("N|") or str(it.get("detail", "")).startswith("Your turn"))):
+                    it["status"] = "done"; it["done"] = str(today())
+                    log(today(), it, "answered (seen in WhatsApp)")
+                    if it["label"] not in names:
+                        names.append(it["label"])
+        save(st)
+        print((f"Already answered, off the list: {', '.join(names)}" if names else "Nothing changed")
               + (f" (couldn't match: {'; '.join(bad)})" if bad else ""))
     elif cmd == "away":
         if "--until" not in rest:

@@ -237,6 +237,11 @@ def main():
     print(path)
     if telegram and not dry:  # 1.4.6: --telegram --dry used to post for real
         print(send_telegram(items))
+        try:  # 1.5.0: Claims & servicing board, its own topic; a problem here never blocks the list
+            import cases
+            print(cases.post())
+        except Exception as e:
+            print("Cases board skipped:", type(e).__name__, e)
     elif dry:
         print(send_telegram(items, dry=True))
 
@@ -286,6 +291,45 @@ def _msg_text(url):
     return urllib.parse.unquote(url.split("?text=", 1)[1]) if url and "?text=" in url else ""
 
 
+_SLOT_RX = None
+
+
+def refresh_slots(it, day, hold=True):
+    """1.5.0: if a waiting message (e.g. a carried-over intro) offers times ("Sat 21 Nov at 11am") that are today
+    or already past, swap in fresh free times (slots.pick_for) before the list is posted.
+    Changes it["url"] in place. Returns True if changed."""
+    import re
+    global _SLOT_RX
+    if _SLOT_RX is None:
+        _SLOT_RX = re.compile(r"(Mon|Tue|Wed|Thu|Fri|Sat|Sun) (\d{1,2}) (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)"
+                              r" at \d{1,2}(?:\.\d{2})?(?:am|pm)")
+    t = _msg_text(it.get("url"))
+    found = list(_SLOT_RX.finditer(t)) if t else []
+    if not found:
+        return False
+
+    def when(m):
+        d = datetime.datetime.strptime(f"{m.group(2)} {m.group(3)} {day.year}", "%d %b %Y").date()
+        return d.replace(year=d.year + 1) if (day - d).days > 180 else d
+    if all(when(m) > day for m in found):
+        return False
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import slots
+    two = slots.pick_for(str(it.get("name")), day)
+    if not two or len(found) > 2:
+        return False
+    new = t
+    for m, s in sorted(zip(found, two), key=lambda x: -x[0].start()):
+        new = new[:m.start()] + slots.say(s) + new[m.end():]
+    it["url"] = it["url"].split("?text=")[0] + "?text=" + urllib.parse.quote(new)
+    if hold:  # not on a --dry preview
+        try:
+            slots.hold(str(it.get("name")), two)
+        except Exception:
+            pass
+    return True
+
+
 def combine(items):
     """1.4.6: one WhatsApp message for several items for the same person. The intro (if any) goes first; the
     others follow without their own "Hi X," opener. A bare "floating this up" nudge is dropped when there is
@@ -296,6 +340,11 @@ def combine(items):
     if len(turns) > 1:
         items = [it for it in items if it not in turns[:-1]]
     texts = [(it, _msg_text(it.get("url"))) for it in items]
+    ctx = [(it, t) for it, t in texts if it.get("context") and t]
+    if ctx:  # 1.5.0: a reply/bump written from the chat itself (todo_list add --draft) beats the stock texts;
+        # other reminders (e.g. a premium) still join as "Also, ...", but not a stock intro
+        texts = ctx[-1:] + [(it, t) for it, t in texts if not it.get("context") and t and "servicing adviser" not in t]
+        turns = []
     real = [(it, t) for it, t in texts if t and "just floating this up" not in t]
     if not real:
         real = [(it, t) for it, t in texts if t]
@@ -384,6 +433,11 @@ def send_telegram(items, dry=False):
         return "Nothing to message today; no Telegram post"
 
     # 1.4.6: one line + one message per person: group their items, keeping the first one's place.
+    for k in rows:  # 1.5.0: no past dates in a message waiting to be sent
+        try:
+            refresh_slots(st["items"][k], day, hold=not dry)
+        except Exception as e:
+            print("Slot refresh skipped:", type(e).__name__, e)
     groups, where = [], {}
     for k in rows:
         w = td._who(st["items"][k])

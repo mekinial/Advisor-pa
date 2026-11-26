@@ -1,6 +1,9 @@
 # Changelog
 
 ## 1.5.0 (26 Nov 2026)
+- **Richer meeting briefs**: one-page layout with logistics (place, hard stop, who pays), purpose (intro vs review),
+  the person (birthday soon, life details), a policies table, fund mix with % and equity share, gaps to ask about (cover
+  not in the insurer file), light talking points, the close, and which numbers to check in the insurer portal.
 - **Claims, servicing and pending new cases tracker** (`./pa cases`). One checklist per case ("client: signed claim
   form", "clinic: medical report", "me: fill in the form", "insurer: …"), built from the insurer's own form. `cases ask`
   drafts ONE WhatsApp message listing everything the client must send. A new HQ topic **📎 Claims & servicing** gets one

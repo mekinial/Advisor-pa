@@ -16,6 +16,8 @@ leaves with clean notes and clear next steps.
 * Pipeline: Data/pipeline.csv. Client folders: Data/Clients/<name>/. Earlier notes: Drafts/Meetings/
 * TOP (transferred clients) intros: Drafts/Follow-ups/top-intros-*.md (reason to meet per person)
 * Save everything in Drafts/Meetings/ as YYYY-MM-DD-<first name>-<brief|notes|agenda>.md
+* A brief follows the layout in scheduled-tasks/nightly-meeting-briefs.md (logistics, purpose, the person, policies table,
+  fund mix, gaps to ask about, talking points, the close, missing numbers).
 
 ## Which calendar events are client meetings
 
